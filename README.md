@@ -1,14 +1,18 @@
-# Sarafan
+# ICO
 ## Ставим зависимости
+`npm install -g ts-node pug-cli typescript @angular/cli`
 `npm install && npm install --dev`
 `npm run init:dev`
 
 ## Запуск сервера в дев
-`npm run dev:server`
+`sudo npm run dev:server`
 
-## Запуск дев сборки для ангуляра 
-`ng build --watch`
- 
+## Запуск дев сборки для клиента 
+`sudo ng build --watch`
+
+## Запуск дев сборки для cms 
+`sudo ng build --watch --app=cms`
+
 ## Сборка в продакшн 
 `npm run build:prod`
 
