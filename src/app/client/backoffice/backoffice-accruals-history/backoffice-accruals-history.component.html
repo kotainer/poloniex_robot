@@ -1,0 +1,35 @@
+<div class="page-content accural-history">
+  <div class="main-container">
+    <h1>История начислений</h1>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let column of columns">
+              {{column.name}}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let accrual of accruals">
+            <td>
+              {{accrual?.number}}
+            </td>
+            <td>
+              {{accrual.createdDate | date: 'dd.MM.yyyy HH:MM'}}
+            </td>
+            <td>
+              {{accrual?.value}}
+            </td>
+            <td>
+              <img src="{{accrual?.siteId.photo?.mini?.url}}" alt=""> {{accrual?.siteId?.name}}
+            </td>
+            <td>
+              {{accrual?.description}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

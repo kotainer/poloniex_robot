@@ -1,0 +1,47 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='', content='text/html; charset=utf-8')
+    title Новые акции на Сарафане
+    style(type='text/css').
+  body(yahoo='', bgcolor='#fff' 
+    style='margin: 0; margin-bottom: 20px; min-width: 100%!important; font-weight: 400; background: #fafafa; padding: 3%; font-size: 15px; color: #313436')
+    a(href="http://sarafan.online" style="margin-bottom: 30px; display: block; cursor: pointer" target="_blank")
+      img(src="http://sarafan.online/images/logo.png")
+    table( class="container-table" align='center', cellpadding='0', cellspacing='0', border='0', bgcolor='#fff', 
+      style='width: 100%; max-width: 800px; padding: 3%; line-height: 1.2')
+      tr
+        td
+          div(style="margin-bottom: 20px; font-weight: 700;") Здравствуйте, 
+            span(style="") !{receiver.login}!
+      tr 
+        td
+          div Обратите внимание на несколько лучших акций за последнее время:
+      tr 
+        td
+          div(style="margin-top: 15px")
+            each promo in promos
+              div(style="width:50%;display:inline-block")
+                table(style="width:100%")
+                  tr
+                    td(colspan="2")
+                      a(href='http://sarafan.online/promo-page/' + promo._id)
+                        img(src='http://sarafan.online' + promo.photo.original.url style="max-width: 100%; object-fit:contain; max-height: 135px; display: block;")
+                  tr  
+                    td(colspan="2" style="padding-right: 10px")
+                      a(href='http://sarafan.online/promo-page/'+ promo._id style="color: #313436; overflow: hidden; height: 50px; display: inline-block;text-decoration: none;")
+                        span(style="font-weight: 700; font-size: 14px; display: inline-block; line-height: 1.2")= promo.name
+                  tr 
+                    td(style="width: 45px; margin-top: 10px")
+                      a(href='http://sarafan.online/company/' + promo._id)
+                        img(src='http://sarafan.online'+ promo.siteId.photo.original.url style="max-width: 40px; max-height: 40px; object-fit:contain; border-radius: 100px")
+                    td
+                      a(href='http://sarafan.online/company/' + promo.siteId._id style="color:#4aaf00; overflow: hidden; height: 17px; display: inline-block; text-decoration: none")
+                        span(style="font-size: 13px; display: inline-block; line-height: 1.2")= promo.siteId.name
+      tr 
+        td
+          div(style="margin-top: 30px") Хорошего дня!
+      tr(style="text-align: right;")
+        td 
+          div(style="margin-top: 50px") Команда Сарафана
+      

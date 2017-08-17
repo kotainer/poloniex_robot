@@ -1,0 +1,24 @@
+<div class="modal">
+  <div class="login-modal">
+   <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="modal-title">
+      Заполните форму, и наш специалист свяжется с Вами!
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+    <form #askForm="ngForm" (ngSubmit)="onAskFormSubmit(askForm.value)" *ngIf="!formIsSended">
+      <div class="top-block-wrap">
+        <input type="text" placeholder="Ваше имя" name="name" [(ngModel)]="ask.name">
+        <input type="email" placeholder="Email" name="email" [(ngModel)]="ask.email">
+        <input type="text" placeholder="Телефон" name="phone" [(ngModel)]="ask.phone">
+      </div>
+      <div class="flex-center">
+        <button type="submit" class="btn orange-btn" [disabled]="!askFormValidation()">
+          Отправить
+        </button>
+      </div>
+    </form>
+    <div *ngIf="formIsSended">
+      Ваше сообщение успешно отправлено! Скоро с Вами свяжется наш менеджер!
+    </div>
+  </div>
+</div>

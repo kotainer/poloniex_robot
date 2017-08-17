@@ -1,0 +1,90 @@
+<div class="backoffice">
+  <md-sidenav-container>
+    <simple-notifications [options]="options"></simple-notifications>
+
+    <md-sidenav #sidenav mode="side" opened="true">
+      <div class="admin-block flex align-center">
+        <md-icon>person</md-icon>
+        <div class="admin-text">Admin</div>
+      </div>
+      <md-list-item routerLink="/dashboard" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>pie_chart</md-icon>
+        <a>Главная</a>
+      </md-list-item>
+      <md-list-item routerLink="/users" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>folder_shared</md-icon>
+        <a>Пользователи</a>
+      </md-list-item>
+      <md-list-item routerLink="/accruals" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>next_week</md-icon>
+        <a>Начисления</a>
+      </md-list-item>
+      <md-list-item routerLink="/bills" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>next_week</md-icon>
+        <a>Выставленные счета</a>
+      </md-list-item>
+      <md-list-item routerLink="/payments" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>monetization_on</md-icon>
+        <a>Платежи</a>
+      </md-list-item>
+      <md-list-item routerLink="/stats" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>assessment</md-icon>
+        <a>Статистика продаж</a>
+      </md-list-item>
+      <md-list-item  routerLink="/rates" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>business_center</md-icon>
+        <a>Тарифы</a>
+      </md-list-item>
+      <md-list-item  routerLink="/files" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>cloud_done</md-icon>
+        <a>Файлы</a>
+      </md-list-item>
+      <md-list-item  routerLink="/messages" routerLinkActive="active" (click)="menuStrategy()">
+        <md-icon>forum</md-icon>
+        <a>Сообщения</a>
+        <div class="layer"></div>
+        <div class="chip btn-red">123</div>
+      </md-list-item>
+<!--(click)="sidenav.close()"-->
+      <md-list-item class="dropdown" (click)="settingsVisible = !settingsVisible" routerLinkActive="active">
+        <div class="flex align-center">
+          <md-icon>settings_applications</md-icon>
+          <a>Настройки</a>
+          <md-icon class="drop-arrow" *ngIf="!settingsVisible" >keyboard_arrow_down</md-icon>
+          <md-icon class="drop-arrow" *ngIf="settingsVisible" >keyboard_arrow_up</md-icon>
+        </div>
+        <div [class.hidden]="!settingsVisible" class="submenu-wrapper">
+          <div class="submenu-item" (click)="menuStrategy()">
+            <a routerLink="/settings" routerLinkActive="active">Настройки системы</a>
+          </div>
+          <div class="submenu-item" (click)="menuStrategy()">
+            <a routerLink="/bank" routerLinkActive="active">Настройки платежей</a>
+          </div>
+          <div class="submenu-item" (click)="menuStrategy()">
+            <a routerLink="/admins" routerLinkActive="active">Управление модераторами</a>
+          </div>
+        </div>
+      </md-list-item>
+      <md-list-item (click)="logout()">
+        <md-icon>exit_to_app</md-icon>
+        <a>Выход</a>
+      </md-list-item>
+    </md-sidenav>
+    <header>
+      <md-card class="flex align-center">
+        <a>
+          <img src="cms/images/menu-icon.png"  (click)="sidenav.toggle()">
+        </a>
+        <a class="project-title" routerLink="/">
+          CMS
+        </a>
+        <span class="exit" (click)="logout()">
+          <md-icon>exit_to_app</md-icon>
+        </span>
+      </md-card>
+    </header>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </md-sidenav-container>
+</div>

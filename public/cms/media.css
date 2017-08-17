@@ -1,0 +1,96 @@
+@media only screen and (max-width : 1199px) {
+  .mat-card{
+    padding: 10px !important;
+  }
+}
+
+/*1199px*/
+@media only screen and (max-width : 991px) {
+  table{
+    font-size: 13px;
+  }
+  .mat-dialog-container{
+    padding: 10px !important;
+  }
+  .mat-dialog-container{
+    max-width: 98vw !important;
+  }
+  .modalContent md-select,
+  .modalContent md-input-container{
+    width: 100%;
+  }
+  .modalContent md-select{
+    margin-top: 10px;
+  }
+  md-input-container{
+    margin-top: 0;
+  }
+  .modalContent .flex,
+  .modalContent .flex-between{
+    flex-wrap: wrap;
+  }
+  md-button-toggle-group{
+    font-size: 13px;
+  }
+  md-button-toggle-group .mat-button-toggle-label-content{
+    line-height: 28px;
+    padding: 0 7px;
+  }
+
+}
+/*991px*/
+
+@media only screen and (max-width : 767px) {
+  md-sidenav{
+    width: 100vw;
+    max-width: 100%;
+  }
+}
+
+/*767px*/
+@media only screen and (max-width : 560px) {
+
+  body{
+    font-size: 13px;
+  }
+  .chip md-icon{
+    font-size: 15px;
+  }
+  .btn{
+    font-size: 10px;
+    padding: 8px;
+    min-width: 100px;
+  }
+  .project-title{
+    font-size: 22px;
+  }
+  .page-title{
+    font-size: 21px;
+  }
+  md-sidenav .mat-list-item-content{
+    padding: 10px 15px ;
+  }
+  .admin-block{
+    font-size: 16px;
+  }
+  .admin-block img{
+    width: 75px;
+  }
+  .exit md-icon{
+    font-size: 30px;
+  }
+  .entry-page .form-wrapper{
+    padding: 25px;
+    margin: 0px;
+    width: 80vw;
+  }
+  table td{
+    padding: 3px;
+  }
+  .layer{
+    min-width: 10px;
+    height: 10px;
+  }
+
+}
+/*560px*/

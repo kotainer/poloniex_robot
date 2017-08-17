@@ -1,0 +1,48 @@
+<div class="page-content bo-referers">
+  <div class="main-container">
+    <h1>Рефералы</h1>
+    <md-input-container dividerColor="accent" class="search-input">
+      <input mdInput placeholder="Поиск по Фио, email, телефон" value="">
+    </md-input-container>
+  </div>
+  <div class="main-container">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let column of columns">
+              {{column.name}}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ref of referers">
+            <td>
+              {{ref.login}}
+            </td>
+            <td>
+              <img src="{{ref?.photo?.small?.url}}" alt="" class="user-avatar">
+            </td>
+            <td>
+              {{ref.surname}} {{ref.name}} {{ref.lastname}}
+            </td>
+            <td>
+              {{ref.email}}
+            </td>
+            <td>
+              {{ref.phone}}
+            </td>
+            <td>
+              {{ref.city}}
+            </td>
+            <td>
+              {{ref.qualification.networkFound}}
+            </td>
+            <td>
+              {{ref.qualification.qualify}}
+            </td>
+          </tr>
+        </tbody>
+      </table></div>  
+  </div>
+</div>

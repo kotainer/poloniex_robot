@@ -1,0 +1,99 @@
+<div class="page-content bo-orders">
+  <div class="main-container">
+    <h1>Заказы</h1>
+     <div class="flex search-param-line">
+      <span>
+        <md-input-container dividerColor="accent" class="search-input">
+          <input mdInput placeholder="Поиск по названию магазина" value="">
+        </md-input-container>
+      </span>
+      <span>
+        <md-select placeholder="Статус" class="">
+          <md-option *ngFor="let status of statuses" [value]="status.value">
+            {{ status.viewValue }}
+          </md-option>
+        </md-select>
+      </span>
+      <span>
+        <md-select placeholder="Источник трафика" class="">
+          <md-option *ngFor="let source of sources" [value]="source.value">
+            {{ source.viewValue }}
+          </md-option>
+        </md-select>
+      </span>
+      <span class="date-picker-wrap">
+        <span class="date-start">
+          <md-input-container>
+            <input mdInput [mdDatepicker]="pickerFrom" placeholder="с" [(ngModel)]="yourModelDate">
+            <button mdSuffix [mdDatepickerToggle]="pickerFrom"></button>
+          </md-input-container>
+          <md-datepicker #pickerFrom></md-datepicker>
+          <!-- <material-datepicker placeholder="с"
+          accentColor='#6ebf33'
+          [(date)]="yourModelDate">
+          </material-datepicker>
+          <md-icon [style.color]="'#757575'">date_range</md-icon> -->
+        </span>
+        <span class="date-end">
+          <md-input-container>
+            <input mdInput [mdDatepicker]="pickerTo" placeholder="по" [(ngModel)]="yourModelDateEnd">
+            <button mdSuffix [mdDatepickerToggle]="pickerTo"></button>
+          </md-input-container>
+          <md-datepicker #pickerTo></md-datepicker>
+          <!-- <material-datepicker placeholder="по"
+          accentColor='#6ebf33'
+          [(date)]="yourModelDateEnd">
+          </material-datepicker>
+          <md-icon [style.color]="'#757575'">date_range</md-icon> -->
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="main-container">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let column of columns">
+              {{column.name}}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of orders">
+            <td>
+              {{row.number}}
+            </td>
+            <td>
+              {{row.date | date: "dd.MM.yyyy HH:MM"}}
+            </td>
+            <td>
+              <img src="{{row?.siteId.photo?.mini?.url}}" alt=""> {{row.siteId.name}}
+            </td>
+            <td>
+              {{row.value}}
+            </td>
+            <td>
+              {{row.target.payments.execute}}
+            </td>
+            <td>
+              {{row.source}}
+            </td>
+            <td>
+              <span class="disable-text" *ngIf="row.status ==='declined'">
+                отклонён
+              </span>
+              <span *ngIf="row.status ==='pending'">
+                ожидает подтверждения
+              </span>
+              <span class="approved-text" *ngIf="row.status ==='approved'">
+                подтверждён
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,322 @@
+.active-link {
+  color: #6EBF33;
+  text-decoration: underline;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 1170px;
+  margin: auto;
+}
+
+.btn-min {
+  padding: 0;
+  min-width: 16px !important;
+}
+
+.backoffice {
+  font-family: "RobotoRegular", "Helvetica Neue", sans-serif;
+}
+
+.backoffice md-sidenav-container {
+  height: 100vh;
+}
+
+.backoffice md-sidenav-container md-sidenav {
+  width: 280px;
+}
+
+.backoffice md-sidenav-container md-sidenav md-nav-list {
+  padding: 0;
+}
+
+.backoffice md-sidenav-container md-sidenav md-nav-list md-list-item {
+  background-color: #FCFCFC;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+  height: 48px;
+}
+
+.backoffice md-sidenav-container md-sidenav md-nav-list md-list-item.active {
+  color: #6EBF33;
+}
+
+.backoffice md-sidenav-container md-sidenav .language {
+  position: absolute;
+  /*bottom: 3px;*/
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+
+.backoffice header {
+  background: #6EBF33;
+  height: 106px;
+  width: 100%;
+  color: white;
+}
+
+.backoffice header .main-container {
+  padding: 25px;
+  display: flex;
+  height: 106px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.backoffice header .left-block, .backoffice header .right-block {
+  display: flex;
+  align-items: center;
+}
+/*datepicker fixes*/
+md-datepicker-content{
+  background: white;
+}
+.backoffice .exit-desc{
+  font-size: 14px;
+}
+
+@media screen and (min-width: 1200px) {
+  .backoffice header .main-container {
+    padding: 0px;
+  }
+}
+
+.backoffice header .logo {
+  height: 55px;
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+  margin-left: 30px;
+}
+.backoffice header .open-sidebar {
+  margin-right: 5px;
+  background: rgba(255,255,255,0.3);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.backoffice header .open-sidebar:hover{
+  background: rgba(0, 0, 0, 0.4);
+}
+.backoffice header .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.backoffice header .actions .icons-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.backoffice header .actions .icons-wrapper .icon {
+  cursor: pointer;
+  margin-right: 27.5px;
+  position: relative;
+  transition: all .3s;
+}
+
+.backoffice header .actions .icons-wrapper .icon md-icon {
+  font-size: 32px;
+}
+
+.backoffice header .actions .icons-wrapper .icon:hover {
+  transform: scale(1.1);
+}
+
+.backoffice header .actions .icons-wrapper .icon span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-size: 12px;
+  top: -11px;
+  left: 87%;
+  background-color: #ffae00;
+  min-width: 25px;
+  min-height: 25px;
+  border-radius: 50%;
+  font-family: "RobotoMedium";
+}
+.backoffice iframe{
+  max-width: 100% !important;
+}
+/* ckeditor .cke{
+  min-width: 60vw !important;
+} */
+@media screen and (min-width: 768px) {
+  .backoffice header .actions {
+    display: inline-flex;
+  }
+}
+
+.backoffice header .user {
+  display: flex;
+  justify-content: center;
+  margin-left: 12.5px;
+}
+
+.backoffice header .user a {
+  font-family: "RobotoMedium";
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.backoffice header .user a span {
+  font-family: "RobotoBold";
+}
+
+.backoffice header .user .expand-menu {
+  cursor: pointer;
+}
+
+.backoffice .page-content {
+  text-align: left;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+@media screen and (min-width: 1200px) {
+  .backoffice .page-content .main-container {
+    border-radius: 5px;
+  }
+}
+
+.backoffice .page-content .main-container {
+  padding: 60px;
+  background-color: white;
+  margin-bottom: 30px;
+}
+.mat-calendar-body-cell-content{
+  cursor: pointer;
+  font-size: 12.4px;
+  border-width: 0 !important;
+}
+.mat-calendar-body-cell-content.mat-calendar-body-today{
+  border-width: 1px !important;
+}
+.mat-calendar-body-cell-content:hover{
+  background: #fafafa;
+}
+.backoffice .page-content .main-container H1 {
+  font-family: "RobotoLight";
+  font-size: 28px;
+  margin-bottom: 30px;
+  word-wrap: break-word;
+}
+
+.backoffice .page-content .main-container md-checkbox {
+  cursor: pointer;
+}
+
+.backoffice .page-content .main-container .table-wrapper {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.backoffice .page-content .main-container .table-wrapper table {
+  width: 100%;
+}
+
+.link {
+  font-family: "RobotoMedium";
+  font-size: 16px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.mat-fab.mat-accent, .mat-mini-fab.mat-accent, .mat-raised-button.mat-accent {
+  color: white !important;
+}
+
+table {
+  margin: 15px 0 15px 0;
+}
+
+.site .payments-types {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.modalContent md-input-container {
+  width: 100%;
+}
+
+.modalContent textarea {
+  width: 100%;
+  min-height: 62px;
+  resize: vertical;
+}
+
+.date-picker-wrap {
+  display: flex;
+  align-items: center;
+  height: 37px;
+}
+
+.date-picker-wrap md-input-container{
+  margin-right: 15px;
+}
+.modal .date-picker-wrap {
+  height: 45px;
+}
+.modal .date-picker-wrap md-input-container{
+  margin-right: 0;
+}
+span {
+  font-size: 16px;
+  font-family: "RobotoLight", "Helvetica Neue", sans-serif;
+}
+
+span.bold {
+  font-family: "RobotoRegular", "Helvetica Neue", sans-serif;
+}
+
+.mat-option.mat-selected,
+.mat-select:focus:not(.mat-select-disabled) .mat-select-trigger,
+.mat-select:focus:not(.mat-select-disabled) .mat-select-arrow {
+  color: #6EBF33 !important;
+}
+
+.mat-select:focus:not(.mat-select-disabled) .mat-select-underline {
+  background-color: #6EBF33 !important;
+}
+
+.page-content.orders
+md-select {
+  position: relative;
+  top: -2px;
+}
+
+.date-start, .date-end {
+  display: flex;
+  justify-content: center;
+}
+
+.user-info {
+  width: 100%;
+  height: 106px;
+  padding: 15px;
+  font-family: "RobotoLight";
+}
+
+.user-info h1 {
+  font-family: "RobotoLight";
+  font-size: 16px;
+}
+
+.user-info span {
+  color: rgba(0, 0, 0, 0.38);
+  font-size: 14px;
+}
+md-sidenav-container.mat-sidenav-opened{
+  z-index: 99999999999999999 !important;
+}
+
+.company-invite {
+  float: right;
+}

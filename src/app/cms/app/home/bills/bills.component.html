@@ -1,0 +1,69 @@
+<div class="page-title">
+  Выставленные счета
+</div>
+<div class="layer"></div>
+<md-card>
+  <div class="flex-center">
+    <div class="layer"></div>
+    <div>
+      <md-input-container>
+        <input mdInput [mdDatepicker]="pickerFrom" placeholder="с" [(ngModel)]="query.createdDate.$gte" (ngModelChange)="getList()">
+        <button mdSuffix [mdDatepickerToggle]="pickerFrom"></button>
+      </md-input-container>
+      <md-datepicker #pickerFrom></md-datepicker>
+    </div>
+    <div class="layer"></div>
+    <div>
+      <md-input-container>
+        <input mdInput [mdDatepicker]="pickerTo" placeholder="по" [(ngModel)]="query.createdDate.$lte" (ngModelChange)="getList()">
+        <button mdSuffix [mdDatepickerToggle]="pickerTo"></button>
+      </md-input-container>
+      <md-datepicker #pickerTo></md-datepicker>
+    </div>
+  </div>
+  <md-button-toggle-group #group="mdButtonToggleGroup" [(ngModel)]="query.isPaymed" name="type" (ngModelChange)="getList()">
+    <md-button-toggle value="false">
+      Ожидающие
+    </md-button-toggle>
+    <div class="layer"></div>
+    <md-button-toggle value="true">
+      Оплаченные
+    </md-button-toggle>
+  </md-button-toggle-group>
+  <table>
+    <thead>
+      <tr>
+        <td></td>
+        <td>Логин</td>
+        <td>Имя</td>
+        <td>Email</td>
+        <td>Баланс</td>
+        <td>Название тарифа</td>
+        <td>Срок оплаты</td>
+        <td>Сумма</td>
+        <td>Дата заявки</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bill of bills">
+        <td><img [src]="bill?.sender?.photo?.small?.url"/></td>
+        <td>{{bill.sender.login}}</td>
+        <td>{{bill.sender.name}}</td>
+        <td>{{bill.sender.email}}</td>
+        <td>{{bill.sender.balance}}</td>
+        <td>{{bill.tariff.name}}</td>
+        <td>{{bill.term}}</td>
+        <td>{{bill.summ}}</td>
+        <td>{{bill.createdDate | date: 'dd.MM.yyyy'}}</td>
+        <td>
+          <div class="flex-center">
+            <div *ngIf="!bill.isPaymed" class="btn-green chip" (click)="payBill(bill)" mdTooltip="Оплатить">
+              <md-icon md-list-icon >done</md-icon>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</md-card>

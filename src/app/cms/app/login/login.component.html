@@ -1,0 +1,32 @@
+<div class="entry-page flex-center align-center">
+  <div class="logo">
+    CMS
+  </div>
+  <div class="form-wrapper">
+    <div class="error" *ngIf="error">{{error}}</div>
+    <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit()" sarafan='loginSubmit'>
+      <div class="form-title">
+        Вход
+      </div>
+      <md-input-container dividerColor="accent">
+        <input mdInput type="text" required placeholder="Ваш логин" [(ngModel)]="login" name="login" #loginInput >
+      </md-input-container>
+      <md-input-container dividerColor="accent">
+        <input mdInput type="password" required placeholder="Ваш пароль" [(ngModel)]="password" name="login"  #passwordInput >
+      </md-input-container>
+      <div class="entry-actions">
+        <div class="flex-end">
+          <a class="entry-variant">Забыли пароль?</a>
+        </div>
+        <div class="big-layer"></div>
+
+        <div class="flex-center">
+          <button type="submit" class="btn btn-green" name="login">
+            <md-icon md-list-icon >account_circle</md-icon>
+            <div>Войти</div>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

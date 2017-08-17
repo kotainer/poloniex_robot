@@ -1,0 +1,118 @@
+.spinner{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  background: #fafafa;
+}
+@-webkit-keyframes circles {
+  0% {
+    -moz-transform: rotate(-720deg);
+    -ms-transform: rotate(-720deg);
+    -webkit-transform: rotate(-720deg);
+    transform: rotate(-720deg);
+  }
+  50% {
+    -moz-transform: rotate(720deg);
+    -ms-transform: rotate(720deg);
+    -webkit-transform: rotate(720deg);
+    transform: rotate(720deg);
+  }
+}
+@-moz-keyframes circles {
+  0% {
+    -moz-transform: rotate(-720deg);
+    -ms-transform: rotate(-720deg);
+    -webkit-transform: rotate(-720deg);
+    transform: rotate(-720deg);
+  }
+  50% {
+    -moz-transform: rotate(720deg);
+    -ms-transform: rotate(720deg);
+    -webkit-transform: rotate(720deg);
+    transform: rotate(720deg);
+  }
+}
+@-o-keyframes circles {
+  0% {
+    -moz-transform: rotate(-720deg);
+    -ms-transform: rotate(-720deg);
+    -webkit-transform: rotate(-720deg);
+    transform: rotate(-720deg);
+  }
+  50% {
+    -moz-transform: rotate(720deg);
+    -ms-transform: rotate(720deg);
+    -webkit-transform: rotate(720deg);
+    transform: rotate(720deg);
+  }
+}
+@keyframes circles {
+  0% {
+    -moz-transform: rotate(-720deg);
+    -ms-transform: rotate(-720deg);
+    -webkit-transform: rotate(-720deg);
+    transform: rotate(-720deg);
+  }
+  50% {
+    -moz-transform: rotate(720deg);
+    -ms-transform: rotate(720deg);
+    -webkit-transform: rotate(720deg);
+    transform: rotate(720deg);
+  }
+}
+
+
+/* Styles for old versions of IE */
+.spinner .circles {
+  font-family: sans-serif;
+  font-weight: 100;
+}
+
+/* :not(:required) hides this rule from IE9 and below */
+.spinner .circles:not(:required) {
+  position: relative;
+  text-indent: -9999px;
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background: rgba(110, 191, 51, 0.8);
+  border-radius: 100%;
+  -webkit-animation: circles 3s infinite ease-in-out;
+  -khtml-animation: circles 3s infinite ease-in-out;
+  -moz-animation: circles 3s infinite ease-in-out;
+  -ms-animation: circles 3s infinite ease-in-out;
+  -o-animation: circles 3s infinite ease-in-out;
+  animation: circles 3s infinite ease-in-out;
+  -moz-transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;
+  transform-origin: 50% 100%;
+}
+.spinner .circles:not(:required)::before {
+
+  background: #ffae00;
+  opacity: 0.8;
+  border-radius: 100%;
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 18.75px;
+  left: -10.82532px;
+}
+.spinner .circles:not(:required)::after {
+  background: #a8a8a8;
+  opacity: 0.8;
+  border-radius: 100%;
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  top: 18.75px;
+  left: 10.82532px;
+}

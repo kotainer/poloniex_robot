@@ -1,0 +1,22 @@
+<div class="page-content bo-companies">
+  <div class="main-container">
+    <div class="flex-between flex-wrap align-center">
+      <h1>Компании</h1>
+    <!--TODO: фильтрация компаний-->
+      <button color="accent" md-raised-button (click)="openInviteModal()">Пригласить компанию</button>
+    </div>
+  </div>
+  <div class="compaines-list">
+    <div class="main-container company" *ngFor="let company of companies">
+      <div class="left-block"><img src="{{company?.photo?.medium?.url}}" alt=""></div>
+      <div class="center--block">
+        <h1>{{company?.name}}</h1>
+        <a href="{{company?.url}}" class="active-link">{{company?.url}}</a><br>
+        <span>{{company?.description}}</span>
+      </div>
+      <div class="right-block">
+        <button *ngIf="!isSubscribe(company)" color="accent" md-raised-button (click)="subscribe(company)">Подключить</button>
+        <button *ngIf="isSubscribe(company)" color="accent" md-raised-button (click)="unsubscribe(company)">Отключить</button>
+      </div>
+    </div>
+  </div>

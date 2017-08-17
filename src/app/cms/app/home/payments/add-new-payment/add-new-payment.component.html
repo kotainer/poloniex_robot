@@ -1,0 +1,49 @@
+<form #addNewUserForm="ngForm">
+  <div class="modalContent">
+    <div class="form-title">
+      Добавление платежа
+    </div>
+    <div class="flex-center">
+      <md-button-toggle-group #group="mdButtonToggleGroup" [(ngModel)]="paymentType" name="type">
+        <md-button-toggle value="refill">
+          Пополнение
+        </md-button-toggle>
+        <div class="layer"></div>
+        <md-button-toggle value="withdrawal">
+          Снятие
+        </md-button-toggle>
+      </md-button-toggle-group>
+    </div>
+    <md-input-container>
+      <input mdInput placeholder="Пользователь" [mdAutocomplete]="auto" [formControl]="stateCtrl">
+    </md-input-container>
+    <md-autocomplete #auto="mdAutocomplete">
+      <md-option *ngFor="let state of filteredStates | async" [value]="state">
+        {{ state }}
+      </md-option>
+    </md-autocomplete>
+
+    <md-input-container >
+      <input mdInput type="text" placeholder="Номер платежного документа"  name="number">
+    </md-input-container>
+    <md-input-container >
+      <input mdInput type="text" placeholder="Сумма"  name="summ">
+    </md-input-container>
+    <md-input-container >
+      <textarea mdInput name="name" rows="3" placeholder="Назначение" name="theme"></textarea>
+    </md-input-container>
+
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="flex-center">
+      <button type="submit" class="btn btn-green" name="save">
+        <md-icon md-list-icon >save</md-icon>
+        <div>Добавить</div>
+      </button>
+      <button type="button" class="btn btn-grey"  name="cancel" (click)="close()">
+        <md-icon md-list-icon >cancel</md-icon>
+        <div>Отмена</div>
+      </button>
+    </div>
+  </div>
+</form>

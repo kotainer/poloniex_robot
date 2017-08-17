@@ -1,0 +1,102 @@
+md-card{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.chip-card{
+  min-width: 170px;
+}
+.chip-card .big-num{
+  font-family: "LatoRegular";
+  font-size: 28px;
+  color: #626767;
+}
+.chip-card md-icon{
+  height: auto;
+  width: auto;
+}
+.chip-card  .bg-icon{
+  color: #E7E7E7;
+  opacity: 0.6;
+  font-size: 80px;
+}
+.chip-title{
+  text-transform: uppercase;
+  font-family: "LatoRegular";
+  color: #767777;
+  font-size: 12px;
+}
+
+.chip-card .arrow md-icon{
+  font-size: 19px;
+  margin-top: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.up-icon{
+  color: #4ab8a1;
+}
+.down-icon{
+  color: #ff6b6b;
+}
+.ps-info{
+  color: #B8B8B8;
+  margin-top: -10px;
+  font-size: 12px;
+}
+.ps-title{
+  color: #A2A2A1;
+  font-family: "LatoRegular";
+}
+.table-title{
+  font-family: "LatoRegular";
+  color: #767777;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+table thead {
+  font-size: 12px;
+  color: #A2A2A1;
+  font-family: "LatoRegular";
+}
+table{
+  font-size: 14px;
+}
+.user-icon{
+  border-radius: 100px;
+  width: 35px;
+}
+table td{
+  padding: 0px;
+}
+.chart-wrapper-300{
+  width: 100%;
+  max-width: 300px;
+}
+.chart-wrapper-500{
+  width: 100%;
+  max-width: 500px;
+}
+@media only screen and (max-width : 1199px) {
+  .chart-wrapper{
+    max-width: 500px;
+  }
+  .tables-wrapper{
+    flex-direction: column;
+  }
+  .tables-wrapper .layer,
+  .charts-wrapper .layer{
+    display: none;
+  }
+
+}
+/*991px*/
+@media only screen and (max-width : 560px) {
+  .chip-card{
+    width: 100%;
+    margin-bottom: 0px;
+  }
+  .chip-card:last-child{
+    margin-bottom: 10px;
+  }
+}
+/*560px*/

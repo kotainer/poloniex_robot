@@ -1,0 +1,23 @@
+<form #changePassForm="ngForm">
+  <div class="modalContent">
+    <div class="form-title">
+      Изменение пароля
+    </div>
+    <md-input-container >
+      <input mdInput type="text" placeholder="Новый пароль"  name="password">
+    </md-input-container>
+
+    <div class="layer"></div>
+    <div class="layer"></div>
+    <div class="flex-center">
+      <button type="submit" class="btn btn-green" name="save">
+        <md-icon md-list-icon >save</md-icon>
+        <div>Сохранить</div>
+      </button>
+      <button type="button" class="btn btn-grey"  name="cancel" (click)="close()">
+        <md-icon md-list-icon >cancel</md-icon>
+        <div>Отмена</div>
+      </button>
+    </div>
+  </div>
+</form>

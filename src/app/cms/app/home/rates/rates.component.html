@@ -1,0 +1,42 @@
+<div class="page-title">
+  Тарифы
+</div>
+<div class="flex">
+  <div class="btn btn-green top-btn" (click)="openAddModal()">
+    <md-icon md-list-icon >add_circle_outline</md-icon>
+    <div>Добавить</div>
+  </div>
+</div>
+<div class="layer"></div>
+<md-card>
+  <table>
+    <thead>
+      <tr>
+        <td>Название</td>
+        <td>Стоимость</td>
+        <td>Примечания</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tariff of tariffs">
+        <td>{{tariff.name}}</td>
+        <td>{{tariff.price}}</td>
+        <td>{{tariff.description}}</td>
+        <td>
+          <div class="flex-center" >
+            <div class="btn-blue chip"  mdTooltip="Редактировать" (click)="openEditModal(tariff)">
+              <md-icon md-list-icon >edit</md-icon>
+            </div>
+            <div class="btn-yellow chip"  mdTooltip="Копировать" (click)="copyTariff(tariff)">
+              <md-icon md-list-icon >content_copy</md-icon>
+            </div>
+            <div class="btn-red chip" mdTooltip="Удалить" (click)="removeTariff(tariff)">
+              <md-icon md-list-icon >delete_forever</md-icon>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</md-card>

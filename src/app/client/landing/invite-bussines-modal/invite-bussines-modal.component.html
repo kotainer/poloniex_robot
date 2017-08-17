@@ -1,0 +1,20 @@
+<div class="modal">
+  <div class="login-modal">
+    <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="modal-title">
+      Пригласить компанию
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+    <form #captchaForm="ngForm" (ngSubmit)="validateForm()">
+      <input type="email" placeholder="Email*"  name="email" class="email-input" [(ngModel)]="email" required>
+      <div class="flex-center">
+        <re-captcha (captchaResponse)="handleCorrectCaptcha($event)" site_key={{recaptchaKey}}></re-captcha>
+      </div>
+      <div class="flex-center">
+        <button type="submit" class="orange-btn">
+           Отправить приглашение
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

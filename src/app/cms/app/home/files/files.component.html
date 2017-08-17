@@ -1,0 +1,55 @@
+<div class="page-title">
+  Файлы
+</div>
+<div class="flex">
+  <div class="btn btn-green top-btn">
+    <md-icon md-list-icon >add_circle_outline</md-icon>
+    <div>Добавить</div>
+  </div>
+  <div class="layer"></div>
+  <div class="btn btn-red top-btn" [class.hidden]="!deleteVisible">
+    <md-icon md-list-icon >delete_forever</md-icon>
+    <div>Удалить</div>
+  </div>
+</div>
+<div class="layer"></div>
+<md-card>
+  <div>
+    <md-input-container class="full-width">
+      <input mdInput type="text" placeholder="Поиск по файлам"  name="search">
+    </md-input-container>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <td>
+          <md-checkbox [ngModel]="checkboxValue" (ngModelChange)="deleteVisible = !deleteVisible">
+          </md-checkbox>
+        </td>
+        <td>Имя</td>
+        <td>Размер</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <md-checkbox [ngModel]="checkboxValue" (ngModelChange)="deleteVisible = !deleteVisible">
+          </md-checkbox>
+        </td>
+        <td>ывывыв</td>
+        <td>ывывы</td>
+        <td>
+          <div class="flex-center" >
+            <div class="btn-yellow chip"  mdTooltip="Копировать">
+              <md-icon md-list-icon >content_copy</md-icon>
+            </div>
+            <div class="btn-red chip" mdTooltip="Удалить">
+              <md-icon md-list-icon >delete_forever</md-icon>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</md-card>

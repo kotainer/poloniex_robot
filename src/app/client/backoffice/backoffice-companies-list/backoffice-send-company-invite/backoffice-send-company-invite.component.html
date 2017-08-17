@@ -1,0 +1,17 @@
+<div class="modal">
+  <div class="reg-modal">
+    <div class="modal-title">
+      Пригласить компанию
+    </div>
+    <form #registerForm="ngForm" (ngSubmit)="sendInvite()">
+      <div class="modalContent">
+
+        <md-input-container dividerColor="accent">
+          <input mdInput type="email" required placeholder="Email" [(ngModel)]="email" name="email">
+        </md-input-container>
+
+      </div>
+      <button md-raised-button type="submit" color="accent" name="save ">Отправить приглашение</button>
+    </form>
+  </div>
+</div>

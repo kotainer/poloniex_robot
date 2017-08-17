@@ -1,0 +1,4 @@
+{
+  "db": "mongodb://localhost/cms",
+  "dkim_private": ""
+}

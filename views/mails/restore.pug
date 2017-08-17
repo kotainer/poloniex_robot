@@ -1,0 +1,48 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='', content='text/html; charset=utf-8')
+    title Восстановление пароля на Сарафане
+  body(yahoo='', bgcolor='#fff' 
+    style='margin: 0; margin-bottom: 20px; min-width: 100%!important; font-weight: 400; background-color: #fafafa; padding: 3%; font-size: 15px; color: #313436')
+    a(href="http://sarafan.online" style="margin-bottom: 30px; display: block; cursor: pointer" target="_blank")
+      img(src="http://sarafan.online/images/logo.png")
+    table(align='center', cellpadding='0', cellspacing='0', border='0', bgcolor='#fff', 
+      style='width: 100%; max-width: 800px; padding: 3%; line-height: 1.5')
+      tr
+        td
+          div(style="margin-bottom: 20px; font-weight: 700;") Здравствуйте, 
+            span(style="") #{receiver.login}!
+      tr 
+        td
+          div(style="margin-bottom: 20px;") Вы получили это письмо, потому что кто-то запросил на сайте 
+            span 
+              a(href="http://sarafan.online" style="cursor: pointer; color:#4aaf00" target="_blank") Sarafan.online
+            | &nbsp;восстановление пароля для пользователя, зарегистрированного с вашим адресом электронной почты: 
+            span(style="color:#4aaf00") #{receiver.email}
+            | &nbsp;. 
+      tr
+        td
+          div(style="margin-top: 20px") Ваш логин:
+            span(style="font-weight: 700") &nbsp; #{receiver.login} 
+          div Ваш новый пароль:
+            span(style="font-weight: 700") &nbsp; #{newPass}
+      tr 
+        td
+          div(style="margin-top: 20px") Никому не сообщайте ваш пароль.
+      tr 
+        td
+          div(style="margin-top: 30px") Хорошего дня!
+          
+      tr(style="text-align: right;")
+        td 
+          div(style="margin-top: 50px") Команда Сарафана
+      
+    // if (gte mso 9)|(IE)
+        | Здравствуйте, #{receiver.login} !\n
+        | Вы получили это письмо, потому что кто-то запросил на сайте Sarafan.online восстановление пароля для пользователя, зарегистрированного с вашим адресом электронной почты:  #{receiver.email} .\n
+        | Ваш логин: #{receiver.login} \n
+        | Ваш новый пароль: #{newPass} \n
+        | Никому не сообщайте ваш пароль.\n
+        | Хорошего дня! \n
+        | Команда Сарафана\n

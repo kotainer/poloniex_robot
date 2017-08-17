@@ -1,0 +1,35 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='', content='text/html; charset=utf-8')
+    title Добро пожаловать в Сарафан!
+  body(yahoo='', bgcolor='#fff' 
+    style='margin: 0; margin-bottom: 20px; min-width: 100%!important; font-weight: 400; background: #fafafa; padding: 3%; font-size: 15px; color: #313436')
+    a(href="http://sarafan.online" style="margin-bottom: 30px; display: block; cursor: pointer" target="_blank")
+      img(src="http://sarafan.online/images/logo.png")
+    table(align='center', cellpadding='0', cellspacing='0', border='0', bgcolor='#fff', 
+      style='width: 100%; max-width: 800px; padding: 3%; line-height: 1.5')
+      tr
+        td
+          div(style="margin-bottom: 20px; font-weight: 700;") Здравствуйте, 
+            span(style="") #{receiver.login}!
+      tr 
+        td
+          div Спасибо, что присоединились к Сарафану.
+      tr 
+        td
+          div(style="margin-top: 20px") Чтобы начать зарабатывать, выберите акцию и разместите у себя в блоге или на странице в социальной сети: 
+            span
+              a(href="http://sarafan.online/companies-promos-list" style="cursor: pointer; color:#4aaf00" target="_blank") http://sarafan.online/companies-promos-list
+      tr 
+        td
+          div(style="margin-top: 30px") Хорошего дня!
+      tr(style="text-align: right;")
+        td 
+          div(style="margin-top: 50px") Команда Сарафана
+      
+    // if (gte mso 9)|(IE)
+        | Здравствуйте, #{receiver.login} !\n
+        | Спасибо, что присоединились к Сарафану.\n
+        | Хорошего дня!\n
+        | Команда Сарафана\n

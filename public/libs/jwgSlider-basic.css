@@ -1,0 +1,66 @@
+/* BASIC CSS */
+
+.jwg_slider_module {
+	min-height:100px;
+}
+.jwg_slider_module,
+.jwg_slider_module .arrow_navigation,
+.jwg_slider_module .tabbed_navigation {
+	overflow:hidden;
+	position:relative;
+	width: 100%;
+}
+.jwg_slider_module .tabbed_navigation > ul {
+	margin:0 auto;
+	text-align:center;
+}
+.jwg_slider_module .tabbed_navigation > ul:after {
+	content:"";
+	clear:both;	
+	display:block;
+}
+.jwg_slider_module .tabbed_navigation > ul li {
+	overflow:hidden;
+	position:relative;
+	display:inline;
+	display:inline-block;
+	cursor:pointer;
+	margin: 0 10px;
+}
+
+.jwg_slider_module .arrow_navigation {width: 100%;
+	margin: 0 auto;
+	height: 100%;
+	position: relative;
+	z-index: auto;
+}
+.jwg_slider_module .arrow_navigation > div {
+	position: relative;
+	z-index: 20; 
+	cursor: pointer;
+	top: 38%; 
+	left: auto;
+	float:left;
+} 
+.jwg_slider_module .arrow_navigation > div.right {
+	float:right;
+}
+
+.jwg_slider_module .slides {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height:100%;
+}
+.jwg_slider_module .slides > .slide {
+	float:left;
+	width:100%;
+	height:inherit;
+	text-align:center;
+}
+.jwg_slider_module .tabbed_navigation {
+	position: absolute;
+	bottom: 0;
+	left:0;
+} 

@@ -1,0 +1,21 @@
+<div class="modal">
+  <div class="reg-modal">
+    <div class="modal-title">
+      Заявка на вывод
+    </div>
+    <form #registerForm="ngForm" (ngSubmit)="addRequest()">
+      <div class="modalContent">
+
+        <md-input-container dividerColor="accent">
+          <input mdInput type="number" required placeholder="Сумма" [(ngModel)]="newRequest.value" name="name" max="{{balance.balance}}">
+        </md-input-container>
+
+        <!--<md-input-container dividerColor="accent">
+          <input mdInput required placeholder="URL" [(ngModel)]="promo.url" name="url">
+        </md-input-container>-->
+
+      </div>
+      <button md-raised-button type="submit" color="accent" name="save ">Отправить</button>
+    </form>
+  </div>
+</div>

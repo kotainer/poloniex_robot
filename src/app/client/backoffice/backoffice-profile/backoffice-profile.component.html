@@ -1,0 +1,53 @@
+<div class="page-content bo-profile">
+  <div class="main-container">
+    <h1>Профиль</h1>
+    <div class="profile-columns">
+      <div class="column-1">
+        <img [src]="user?.photo?.medium?.url" alt="" class="user-avatar-profile"><br>
+        <input type="file" class="hidden-input" (change)="fileChange($event)" placeholder="Upload file" #upload accept=".jpg,.png,.jpeg">
+        <a class="active-link" (click)="upload.click()">загрузить фотографию</a>
+        <div class="user-info" style="padding:0">
+          <span>{{user?.login}}</span><br>
+          <span>{{user?.email}}</span>
+        </div>
+      </div>
+      <div class="column-2">
+         <md-input-container dividerColor="accent">
+            <input mdInput placeholder="Фамилия" [ngModel]="user?.surname" (ngModelChange)="user.surname=$event" name="surname">
+          </md-input-container>
+          <md-input-container dividerColor="accent">
+            <input mdInput placeholder="Имя" value="" [ngModel]="user?.name" (ngModelChange)="user.name=$event" name="name">
+          </md-input-container>
+          <md-input-container dividerColor="accent">
+            <input mdInput placeholder="Отчество" [ngModel]="user?.lastname" (ngModelChange)="user.lastname=$event" name="lastname">
+          </md-input-container>
+          <md-input-container dividerColor="accent">
+            <input mdInput placeholder="Телефон" [ngModel]="user?.phone" (ngModelChange)="user.phone=$event" name="phone">
+          </md-input-container>
+          <md-input-container dividerColor="accent">
+            <input mdInput placeholder="Город" [ngModel]="user?.city" (ngModelChange)="user.city=$event" name="city">
+          </md-input-container>
+          <div class="date-picker-wrap">
+            <md-input-container>
+              <input mdInput [mdDatepicker]="picker" placeholder="Дата рождения:" [(ngModel)]="dpDate">
+              <button mdSuffix [mdDatepickerToggle]="picker"></button>
+            </md-input-container>
+            <md-datepicker #picker></md-datepicker>
+          </div>
+          <md-radio-group [(ngModel)]="sex" name="sexs">
+            <md-radio-button value="male">Мужчина</md-radio-button>
+            <md-radio-button value="female">Женщина</md-radio-button>
+          </md-radio-group>
+          <br><br>
+          <md-checkbox [checked]="user?.isInvite" (change)="user.isInvite = !user.isInvite" name="isInvite">
+            Хочу получать акции и привлекать клиентов
+          </md-checkbox><br>
+
+          <!--<md-input-container class="ref-link">
+            <input mdInput placeholder="Ваша реферальная ссылка" disabled value="Google">
+          </md-input-container>-->
+      </div>
+      <button md-raised-button type="button" (click)="saveUserInfo()" color="accent">Сохранить</button>
+    </div>
+  </div>
+</div>

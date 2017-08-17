@@ -1,0 +1,17 @@
+<header>
+  <div class="flex reg-login-wrapper">
+   <!--  <a class="reg-logo-wrap flex align-center">
+      <span *ngIf="!user" class="text" (click)="openLoginModal('login')">Войти</span>
+      <div *ngIf="user">
+        <span *ngIf="!user.isBuisnessOwner" class="text" routerLink="/backoffice">Личный кабинет</span>
+      </div>
+    </a> -->
+    <a (click)="openLoginModal('register')" class=" reg-logo-wrap register-btn" *ngIf="!user">
+      <span class="text">
+        Бесплатная 
+        регистрация
+      </span>
+    </a>
+  </div>
+     
+</header>

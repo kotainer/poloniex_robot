@@ -1,0 +1,156 @@
+
+.flex{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+}
+.flex-between{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: space-between;
+}
+.flex-center{
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  justify-content: center;
+}
+.flex-wrap{
+  flex-wrap: wrap;
+}
+.align-center{
+  align-items: center;
+}
+
+.align-center{
+  align-items: center;
+}
+.video-wrapper{
+  margin-top: 20px;
+}
+
+.profile-columns{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.profile-columns
+md-input-container{
+  width: 100%;
+}
+.profile-columns
+.column-1{
+  width: 27%;
+}
+.profile-columns
+.column-2{
+  width: 70%;
+}
+.user-avatar-profile{
+  height: 175px;
+}
+
+.bo-referers
+md-input-container{
+  min-width: 300px;
+}
+
+.bo-companies
+.company,
+.bo-promotions
+.promotion{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.bo-companies
+.company
+.left-block,
+.bo-promotions
+.promotion
+.left-block{
+  width: 20%;
+}
+.bo-companies
+.company
+.center--block,
+.bo-promotions
+.promotion
+.center--block{
+  width: 60%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.bo-companies
+.company
+h1,
+.bo-promotions
+.promotion
+h1{
+  margin-bottom: 5px;
+}
+.bo-companies
+.company
+.right-block,
+.bo-promotions
+.promotion
+.right-block{
+  width: 20%;
+  text-align: right;
+}
+.bo-companies
+.company
+.left-block
+img,
+.bo-promotions
+.promotion
+.left-block
+img{
+  width: 100%;
+}
+.company
+h1{
+  font-size: 26px;
+}
+.share-list{
+  display: flex;
+  flex-wrap: wrap;
+}
+.share-list.right-block{
+  height: 100px;
+}
+.share-list
+div{
+  flex-basis: 50%;
+  margin-bottom: 15px;
+}
+.promotion .share-list-wrapper img{
+  cursor: pointer
+}
+@media only screen and (max-width : 991px) {
+ .bo-promotions .promotion{
+    flex-direction: column;
+    padding: 10px !important;
+    flex-wrap: wrap;
+  }
+  .share-list-wrapper{
+    margin-top: 30px;
+    margin-bottom: 10px;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    justify-content: center;
+  }
+  .promotion .left-block,
+  .promotion .center--block{
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+  }
+  .share-list-wrapper>div{
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+}

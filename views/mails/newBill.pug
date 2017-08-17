@@ -1,0 +1,45 @@
+doctype transitional
+html(xmlns='http://www.w3.org/1999/xhtml')
+  head
+    meta(http-equiv='', content='text/html; charset=utf-8')
+    title Новая выставленный счёт на Сарафане
+  body(yahoo='', bgcolor='#fff' 
+    style='margin: 0; margin-bottom: 20px; min-width: 100%!important; font-weight: 400; background: #fafafa; padding: 3%; font-size: 15px; color: #313436')
+    a(href="http://sarafan.online" style="margin-bottom: 30px; display: block; cursor: pointer" target="_blank")
+      img(src="http://sarafan.online/images/logo.png")
+    table(align='center', cellpadding='0', cellspacing='0', border='0', bgcolor='#fff', 
+      style='width: 100%; max-width: 800px; padding: 3%; line-height: 1.5')
+      tr
+        td
+          div(style="margin-bottom: 20px; font-weight: 700;") Здравствуйте.
+      tr 
+        td
+          div(style="margin-bottom: 20px;") Вы получили это письмо, потому что #{receiver.login} | #{receiver.email}  на сайте 
+            span 
+              a(href="http://sarafan.online" style="cursor: pointer; color:#4aaf00" target="_blank") Sarafan.online
+            | &nbsp; новый счёт на оплату: 
+      tr
+        td
+          div(style="margin-top: 20px") Тариф:
+            span(style="font-weight: 700") &nbsp; #{bill.tariff.name} 
+          div Цена тарифа:
+            span(style="font-weight: 700") &nbsp; #{bill.tariff.price} руб.
+          div Срок:
+            span(style="font-weight: 700") &nbsp; #{bill.term} мес.
+          div Скидка:
+            span(style="font-weight: 700") &nbsp; #{bill.sale} %
+          div Итог:
+            span(style="font-weight: 700") &nbsp; #{bill.summ} руб.
+          
+      tr(style="text-align: right;")
+        td 
+          div(style="margin-top: 50px") Команда Сарафана
+      
+    // if (gte mso 9)|(IE)
+        | Здравствуйте, #{receiver.login} !\n
+        | Вы получили это письмо, потому что кто-то запросил на сайте Sarafan.online восстановление пароля для пользователя, зарегистрированного с вашим адресом электронной почты:  #{receiver.email} .\n
+        | Ваш логин: #{receiver.login} \n
+        | Ваш новый пароль: #{newPass} \n
+        | Никому не сообщайте ваш пароль.\n
+        | Хорошего дня! \n
+        | Команда Сарафана\n

@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title Sarafan CMS
+    base(href='/cms')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='icon', type='image/x-icon', href='favicon.ico')
+    link(rel='stylesheet', href='/cms/spinner.css')
+    link(rel='stylesheet', href='/cms/material.css')
+    link(rel='stylesheet', href='/cms/common.css')
+    link(rel='stylesheet', href='/cms/media.css')
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+  body
+    cms-root 
+      .loader-wrapper
+        .wrapper
+          .loader
+            .roller
+            .roller
+          #loader2.loader
+            .roller
+            .roller
+          #loader3.loader
+            .roller
+            .roller
+    script(src='https://cdn.ckeditor.com/4.5.11/full/ckeditor.js')
+    script(type='text/javascript', src="./cms/js/chart.js")
+    script(type='text/javascript', src='/dist/cms/inline.bundle.js')
+    script(type='text/javascript', src='/dist/cms/polyfills.bundle.js')
+    script(type='text/javascript', src='/dist/cms/vendor.bundle.js')
+    script(type='text/javascript', src='/dist/cms/main.bundle.js')

@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.angular.json",
+  "experimentalDecorators": true,
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "es2016",
+    "experimentalDecorators": true,
+    "baseUrl": "",
+    "types": []
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "../server"
+  ]
+}

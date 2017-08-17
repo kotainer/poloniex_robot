@@ -1,0 +1,88 @@
+<div class="backoffice">
+  <md-sidenav-container>
+    <md-sidenav #sidenav>
+      <div class="user-info">
+        <h1>{{user?.surname}} {{user?.name}}</h1>
+      </div>
+      <md-nav-list>
+        <md-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/backoffice" (click)="sidenav.close()">
+          <a>Профиль</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/promo" (click)="sidenav.close()">
+          <a>Акции</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/referers" (click)="sidenav.close()">
+          <a>Рефералы</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/orders" (click)="sidenav.close()">
+          <a>Заказы</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/balance" (click)="sidenav.close()">
+          <a>Баланс</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/requests" (click)="sidenav.close()">
+          <a>Вывод средств</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/companies" (click)="sidenav.close()">
+          <a>Компании</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/accruals" (click)="sidenav.close()">
+          <a>История начислений</a>
+        </md-list-item>
+        <md-list-item routerLinkActive="active" routerLink="/backoffice/payments" (click)="sidenav.close()">
+          <a>История платежей</a>
+        </md-list-item>
+        <md-list-item class="logout"(click)="logout()">
+          <a>Выйти</a>
+        </md-list-item>
+        <div class="language">Язык: Русский / <a class="active-link">Английский</a></div>
+      </md-nav-list>
+    </md-sidenav>
+    <header>
+      <div class="main-container">
+        <div class="left-block">
+          <button md-button (click)="sidenav.open()" class="btn-min open-sidebar">
+            <md-icon class="exit-icon">menu</md-icon>
+            <div class="exit-desc">Меню</div>
+          </button>
+          <a href="/">
+            <img class="logo" src="images/logo.png" />
+          </a>
+        </div>
+        <div class="right-block">
+          <div class="actions">
+            <div class="icons-wrapper">
+              <div class="icon">
+                <md-icon [style.color]="'white'">card_giftcard</md-icon>
+                <span *ngIf="notify.gifts > 0">{{notify?.gifts}}</span>
+              </div>
+              <div class="icon" routerLink="/backoffice/orders">
+                <md-icon [style.color]="'white'">shopping_cart</md-icon>
+                <span *ngIf="notify.orders > 0">{{notify?.orders}}</span>
+              </div>
+              <div class="icon" routerLink="/backoffice/accruals">
+                <md-icon [style.color]="'white'">monetization_on</md-icon>
+                <span *ngIf="notify.payments > 0">{{notify?.payments}}</span>
+              </div>
+              <div class="icon" routerLink="/backoffice/referers">
+                <md-icon [style.color]="'white'">person</md-icon>
+                <span *ngIf="notify.referals > 0">{{notify?.referals}}</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="user" [mdMenuTriggerFor]="menu">
+            <a>{{user?.surname}} {{user?.name}}</a>
+            <md-icon color="white" class="expand-menu">arrow_drop_down</md-icon>
+            <md-menu #menu="mdMenu">
+              <button md-menu-item (click)="logout()">Выйти</button>
+            </md-menu>
+          </div>
+        </div>
+      </div>
+    </header>
+    <router-outlet></router-outlet>
+
+  </md-sidenav-container>
+
+</div>

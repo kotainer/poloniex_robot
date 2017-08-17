@@ -1,0 +1,30 @@
+<div class="page-content bo-balance">
+  <div class="main-container">
+    <h1>Баланс</h1>
+    <div class="global-balance">Общий баланс: <span class="bold">{{summBalance}}₽</span></div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let column of columns">
+              {{column.name}}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of balance">
+            <td>
+              <img src="{{row?.logo}}" alt=""> {{row.siteName}}
+            </td>
+            <td>
+              {{row.balance}}₽
+              <a (click)="openAddRequestModal(row)">вывести</a>
+              <!--<a *ngIf="row.balance>=1000">вывести</a>
+              <span *ngIf="row.balance<1000">заблокировано на вывод 1000р.</span>-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

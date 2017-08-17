@@ -1,0 +1,40 @@
+<div class="page-content bo-promotions">
+  <div class="main-container">
+    <h1>Акции</h1>
+    <!--Добавить фильтрацию-->
+  </div>
+  <div class="promotions-list">
+    <div class="main-container promotion flex-between" *ngFor="let promo of promos">
+      <div class="left-block">
+        <div class="site-promo-company-div">
+          <img class="site-logo" [src]="promo?.siteId?.photo?.mini.url" alt="">
+          <span class="site-promo-name">{{promo?.siteId?.name}}</span>
+        </div>
+        <img [src]="promo?.photo?.original.url" alt="">
+      </div>
+      <div class="center--block">
+        <h1>{{promo?.name}}</h1>
+        <span>{{promo?.userDescription}}</span>
+        <div [innerHTML]="promo?.video | safeHtml"  class="video-wrapper"></div>
+      </div>
+      <div class="share-list-wrapper">
+        <div (click)="Share.vkontakte('http://sarafan.online/promo/'+promo._id+'?user='+user._id+'&source=vk', promo?.name, 'http://sarafan.online'+promo.photo.original.url, promo?.description, promo._id)">
+          <img src="images/vk-icon.png" alt="">
+        </div>
+        <!--<button md-fab (click)="Share.facebook('http://sarafan.online/promo/'+promo.id+'?user='+user._id+'&source=fb', promo?.name, 'http://sarafan.online'+promo?.photo?.original?.name, promo?.description)">FB</button>-->
+        <div (click)="Share.facebook('http://sarafan.online/promo/'+promo._id+'?user='+user._id+'&source=fb','http://sarafan.online'+promo?.photo?.original?.url, promo?.description, promo._id, promo?.name)">
+          <img src="images/fb-icon.png" alt="">
+        </div>
+        <div (click)="Share.twitter('http://sarafan.online/promo/'+promo._id+'?user='+user._id+'&source=tw', promo?.name, promo?.description, promo._id, promo?.siteId.name)">
+          <img src="images/tw-icon.png" alt="">
+        </div>
+        <div (click)="openLinkDialog(promo)">
+          <img src="images/link-icon.png" alt="">
+        </div>
+        <div (click)="openHTMLDialog(promo)">
+          <img src="images/html-icon.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

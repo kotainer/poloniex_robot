@@ -1,0 +1,9 @@
+@media only screen and (max-width : 680px) {
+  .buttons-wrapper{
+    flex-direction: column;
+     -webkit-align-items: baseline; 
+    align-items: baseline;
+  }
+}
+
+/*560px*/

@@ -1,0 +1,35 @@
+<div class="page-content requests-on-out">
+  <div class="main-container">
+    <h1>Запросы на вывод</h1>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <td *ngFor="let column of columns">
+              {{column.name}}
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let request of requests">
+            <td>
+              {{request?.number}}
+            </td>
+            <td>
+              {{request.date | date: 'dd.MM.yyyy HH:MM'}}
+            </td>
+            <td>
+              {{request?.value}}
+            </td>
+            <td>
+              {{request?.siteId?.name}}
+            </td>
+            <td>
+              {{request?.status}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

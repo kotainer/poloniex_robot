@@ -1,0 +1,115 @@
+<div class="modal" *ngIf="flag=='register'">
+  <div class="login-modal">
+   <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="modal-title">
+      Регистрация
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+    <form #registerForm="ngForm" (ngSubmit)="onRegisterSubmit()" sarafan="8TBRqwC">
+      <div class="top-block-wrap">
+        <input type="text" placeholder="Логин" [ngModelOptions]="{standalone: true}" required #regLoginInput [(ngModel)]="registerValues.login">
+        <input type="password" placeholder="Пароль" [ngModelOptions]="{standalone: true}" required #regPasswordInput [(ngModel)]="registerValues.password">
+        <input type="text" placeholder="Email" [ngModelOptions]="{standalone: true}" required #regEmailInput [(ngModel)]="registerValues.email">
+        <!-- <input type="text" placeholder="Реферал" [ngModelOptions]="{standalone: true}" required #regReferalInput [(ngModel)]="registerValues.referal"> -->
+      </div>
+      <div class="radio-wrapper">
+        <input type="checkbox" class="radio" id="owner" [ngModelOptions]="{standalone: true}" required #isBuisnessOwner [(ngModel)]="registerValues.isBuisnessOwner"
+        />
+        <label for="owner">Я владелец бизнеса</label>
+      </div>
+      <div class="radio-wrapper">
+        <input type="checkbox" class="radio" id="actions" [ngModelOptions]="{standalone: true}" required #isInvite [(ngModel)]="registerValues.isInvite"
+        />
+        <label for="actions">
+            Хочу получать акции и привлекать
+            <br class="hidden-480">
+            клиентов
+        </label>
+      </div>
+      <div class="flex-center">
+        <button type="submit" class="orange-btn reg-btn">
+            Зарегистрировать аккаунт
+            <span class="arrow-right">
+              <img src="images/btn-arrow.png" alt="">
+            </span>
+          </button>
+      </div>
+
+      <div class="footer-content">
+        У меня уже есть аккаунт
+        <span>
+            <a class="green" (click)="changeFlag('login')">войти</a>
+          </span>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div class="modal" *ngIf="flag=='login'">
+  <div class="login-modal">
+   <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="modal-title">
+      Вход
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+    <form #loginForm="ngForm" (ngSubmit)="onLoginSubmit()" sarafan='loginSubmit'>
+      <div class="top-block-wrap">
+        <input type="text" placeholder="Ваш логин" required [(ngModel)]="login" #loginInput name="login">
+        <input type="password" placeholder="Ваш пароль" required #passwordInput name=" password " [(ngModel)]="password">
+        <!--<span class="eye-icon">
+            <img src="images/eye-icon.png" alt="">
+          </span>-->
+      </div>
+      <div class="actions-wrap flex-between align-center">
+        <a class="green" (click)="changeFlag('restore')">Забыли пароль?</a>
+        <button type="submit" class="orange-btn login-btn">
+            Войти
+            <span class="arrow-right">
+              <img src="images/btn-arrow.png" alt="">
+            </span>
+          </button >
+        </div>
+        <div class="footer-content">
+          У меня нет аккаунта
+          <span>
+            <a class="green" (click)="changeFlag('register')">зарегистрироваться</a>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="login-modal restore-modal" *ngIf="flag=='restore'">
+   <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="restore-sendpass-modal">
+      <div class="modal-title">
+        Восстановить пароль
+      </div>
+      <div class="error" *ngIf="error">{{error}}</div>
+      <div class="succes" *ngIf="response">{{response}}</div>
+      <form>
+        <div class="top-block-wrap">
+          <input type="text" name="restoreEmail" placeholder="Введите ваш email" [(ngModel)]="restoreEmail">
+        </div>
+        <div class="flex-center">
+          <button type="submit" class="orange-btn send-btn restore-btn" (click)="restorePassword()">
+            Выслать пароль
+          </button>
+        </div>
+    </form>
+    </div>
+  </div>
+  <div class="modal" *ngIf="flag=='restoreOK'">
+   <md-icon class="close-icon" (click)="close()">close</md-icon>
+    <div class="restore-sucs-modal">
+      <div class="modal-title">
+        Восстановить пароль
+      </div>
+      <div class="text">
+        Инструкция по восстановлению пароля
+        <br class="hidden-480"> была отправлена вам на email
+      </div>
+      <a class="orange-btn close-btn" (click)="changeFlag('login')">
+        Закрыть
+      </a>
+    </div>
+  </div>
