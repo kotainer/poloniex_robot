@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SimpleNotificationsModule, NotificationsService } from 'angular2-notifications';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ChartsModule } from 'ng2-charts';
+import * as moment from 'moment';
 
 import { ApiService } from './services/api.service';
 import { SocketService } from './services/socket.service';
@@ -23,7 +24,6 @@ import { AdminsAddNewUserComponent } from './home/admins/add-new-user/add-new-us
 import { AdminsChangePassComponent } from './home/admins/change-pass/change-pass.component';
 import { FilesComponent } from './home/files/files.component';
 import { UsersComponent } from './home/users/users.component';
-import { StatsComponent } from './home/stats/stats.component';
 import { PaymentsComponent } from './home/payments/payments.component';
 import { AddNewPaymentComponent } from './home/payments/add-new-payment/add-new-payment.component';
 import { UserComponent } from './home/user/user.component';
@@ -43,17 +43,6 @@ const cmsRoutes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'settings', component: SettingsComponent },
-      { path: 'stats', component: StatsComponent },
-      { path: 'users', component: UsersComponent },
-      { path: 'user/:id', component: UserComponent },
-      { path: 'files', component: FilesComponent },
-      { path: 'admins', component: AdminsComponent },
-      { path: 'bank', component: BankComponent },
-      { path: 'payments', component: PaymentsComponent },
-      { path: 'messages', component: MessagesComponent },
-      { path: 'rates', component: RatesComponent},
-      { path: 'accruals', component: AccrualsComponent},
-      { path: 'bills', component: BillsComponent},
     ]
   },
   { path: 'login', component: LoginComponent },
@@ -82,7 +71,6 @@ const cmsRoutes: Routes = [
     AdminsChangePassComponent,
     FilesComponent,
     UsersComponent,
-    StatsComponent,
     PaymentsComponent,
     AddNewPaymentComponent,
     UserComponent,

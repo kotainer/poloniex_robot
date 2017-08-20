@@ -44,7 +44,7 @@
       "prefix": "cms",
       "styles": [],
       "scripts": [
-        "../node_modules/moment/min/moment.min.js"
+        "../../../node_modules/moment/min/moment.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
