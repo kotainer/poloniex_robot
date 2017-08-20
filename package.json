@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
+    "start": "NODE_ENV=production 'ts-node' src/server/server.ts",
     "ng": "ng",
     "build": "npm run build:cms && npm run build:client",
     "build:cms": "ng build --app=cms",
@@ -85,7 +86,6 @@
     "socket.io": "^1.7.3",
     "socketio-jwt": "^4.5.0",
     "typescript": "^2.3.4",
-    "typings": "^2.1.1",
     "uuid": "git+https://bitbucket.org/kotainers/node-uuid.git",
     "zone.js": "^0.8.4"
   },
