@@ -243,4 +243,24 @@ export class ApiService {
 
     // -----------------------------------------
 
+    public getLastLoans() {
+        return this.http.get(`${apiUrl}loans/last`)
+            .map((res: Response) => res.json());
+    }
+
+    public getLoansRate() {
+        return this.http.get(`${apiUrl}loans/rate`)
+            .map((res: Response) => res.json());
+    }
+
+    public getAverageRate() {
+        return this.http.get(`${apiUrl}loans/average`)
+            .map((res: Response) => res.json());
+    }
+
+    public getAverageDayRate() {
+        return this.http.get(`${apiUrl}loans/averageday`)
+            .map((res: Response) => res.json());
+    }
+
 };

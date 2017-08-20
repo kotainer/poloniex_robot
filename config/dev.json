@@ -1,4 +1,4 @@
 {
-  "db": "mongodb://localhost/cms",
+  "db": "mongodb://localhost/poloniex",
   "dkim_private": ""
 }

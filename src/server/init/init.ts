@@ -26,6 +26,9 @@ const baseInitiDB = async () => {
         settings = await Settings.create({
             _id: uuid(),
             tag: 'main',
+            settings: {
+                limitLoans: 10,
+            }
         });
     }
 

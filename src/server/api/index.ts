@@ -9,8 +9,8 @@ const pagesCms = new AdminPages(null, null);
 
 const clientIndexRouter = new Router();
 clientIndexRouter
-    .get('/', pages.landing)
-    .get('/*', pages.landing)
+    .get('/', pagesCms.main)
+    .get('/*', pagesCms.main)
     .get('/site/:siteId', pages.openSite)
     .get('/promo/:promoId', pages.openPromo)
     .get('/show/site', pages.showSite)

@@ -5,6 +5,7 @@ const uuid = require('uuid');
 interface ISettings extends Document {
     tag: string;
     body: string;
+    settings: any;
 }
 
 const setSchema = new Schema({
@@ -16,6 +17,8 @@ const setSchema = new Schema({
     tag: String,
 
     body: {},
+
+    settings: {},
 
     dateUpdate: {
         type: Date,

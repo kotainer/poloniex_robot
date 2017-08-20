@@ -11,6 +11,10 @@ import * as etag from 'koa-etag';
 import { SocketServer } from './services/sockets';
 import { Tasks } from './tasks';
 
+import { PoloniexAPI } from './services/poloniex';
+
+const poloniex = new PoloniexAPI();
+
 const tasks = new Tasks().runTasks();
 
 import routes from './api';
@@ -30,7 +34,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 // mongoose.set('debug', true); // вываливаем все запросы в консоль
 
-mongoose.connect(config.get('db'));
+mongoose.connect(config.get('db'), {useMongoClient: true});
 
 
 // app.use(conditional());
@@ -62,7 +66,8 @@ const socketServer: SocketServer = new SocketServer();
 
 const appServer = {
     server: server,
-    socketServer
+    socketServer,
+    poloniex: poloniex,
 };
 
 export default appServer;
