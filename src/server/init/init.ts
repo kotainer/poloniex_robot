@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const uuid = require('uuid');
 mongoose.Promise = global.Promise;
-mongoose.connect(config.get('db'));
+mongoose.connect(config.get('db'), {useMongoClient: true});
 
 import * as Admin from '../models/admin';
 import * as Settings from '../models/settings';
@@ -27,22 +27,18 @@ const baseInitiDB = async () => {
             _id: uuid(),
             tag: 'main',
             settings: {
-                limitLoans: 10,
-            }
+                limitLoans : 10,
+                limitCoinInLoan : 250,
+                averagePlus : 0.125,
+                autoLoan : 1,
+            },
         });
     }
 
-    let settingsPayment = await Settings.findOne({tag: 'payments'});
-    if (!settingsPayment) {
-        settingsPayment = await Settings.create({
-            _id: uuid(),
-            tag: 'payments',
-        });
-    }
     // ----------------------------------
 
     mongoose.connection.close();
-    console.log('default init complite');
+    console.log('default CMS init complite');
 };
 
 baseInitiDB();

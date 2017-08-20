@@ -43,7 +43,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cms",
       "styles": [],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/moment/min/moment.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

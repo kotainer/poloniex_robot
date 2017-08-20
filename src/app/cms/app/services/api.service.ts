@@ -243,23 +243,78 @@ export class ApiService {
 
     // -----------------------------------------
 
-    public getLastLoans() {
-        return this.http.get(`${apiUrl}loans/last`)
-            .map((res: Response) => res.json());
-    }
-
     public getLoansRate() {
         return this.http.get(`${apiUrl}loans/rate`)
             .map((res: Response) => res.json());
     }
 
-    public getAverageRate() {
-        return this.http.get(`${apiUrl}loans/average`)
+    public getAverageDayRate() {
+        return this.http.get(`${apiUrl}loans/averageday`)
             .map((res: Response) => res.json());
     }
 
-    public getAverageDayRate() {
-        return this.http.get(`${apiUrl}loans/averageday`)
+    public getCompleteBalances(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}balances/complete`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getAvailableBalances(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}balances/available`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getOpenLoansOffer(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}loans/open`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getActiveLoansOffer(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}loans/active`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getAverageRate(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}loans/average`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public cancelLoanOffer(jwt: string, loanId: number) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        const body = new URLSearchParams();
+
+        return this.http.post(`${apiUrl}loans/${loanId}/cancel`, body,
+            { headers: headers})
+            .map((res: Response) => res.json());
+    }
+
+    public getLastLoans(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}loans/last`,
+            { headers: headers })
             .map((res: Response) => res.json());
     }
 

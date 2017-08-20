@@ -10,17 +10,14 @@ import * as etag from 'koa-etag';
 
 import { SocketServer } from './services/sockets';
 import { Tasks } from './tasks';
-
 import { PoloniexAPI } from './services/poloniex';
 
-const poloniex = new PoloniexAPI();
-
-const tasks = new Tasks().runTasks();
-
 import routes from './api';
-
 import passport from './middleware/userAuthStategy';
 import err from './middleware/error';
+
+// const tasks = new Tasks().runTasks();
+const poloniex = new PoloniexAPI();
 
 const env = process.env.NODE_ENV || 'dev';
 const port = process.env.PORT || 3012;

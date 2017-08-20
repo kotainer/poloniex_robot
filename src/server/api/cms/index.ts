@@ -7,6 +7,8 @@ import { Tariff } from './tariffs';
 import { Accruals } from './accruals';
 import { Orders } from './orders';
 import { Bills } from './bills';
+import { Balances } from './balances';
+import { Loans } from './loans';
 
 import * as AdminModel from '../../models/admin';
 import * as UserModel from '../../models/user';
@@ -29,6 +31,8 @@ const stats = new Statistics();
 const accruals = new Accruals(AccrualsModel, 'accruals');
 const orders = new Orders(OrderModel, 'accruals');
 const bills = new Bills(BillModel, 'bills');
+const balances = new Balances();
+const loans = new Loans();
 
 const adminAuth = new AdminAuth();
 
@@ -99,6 +103,23 @@ router
 
     .post('/bill/:billId', bills.pay)
 
+    // ------------------------------------------------
+
+
+
+    // BALANCES
+    .get('/balances/complete', balances.complete)
+    .get('/balances/available', balances.available)
+
+    // ------------------------------------------------
+
+    // LOANS
+    .get('/loans/open', loans.openLoanOffers)
+    .get('/loans/active', loans.activeLoans)
+    .get('/loans/average', loans.averageRate)
+    .get('/loans/last', loans.last)
+
+    .post('/loans/:id/cancel', loans.cancelLoan)
     // ------------------------------------------------
     ;
 

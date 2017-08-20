@@ -52,9 +52,9 @@ const jwtOptions = {
 passport.use(new JwtStrategy(jwtOptions, function (payload, done) {
   let model: any;
 
-  if (!payload.expireAt || payload.expireAt >= new Date()) {
-    return done(null, false);
-  }
+  // if (!payload.expireAt || payload.expireAt >= new Date()) {
+  //   return done(null, false);
+  // }
 
   if (payload.isAdmin) {
     model = Admin;

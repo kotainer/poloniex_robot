@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CMSComponent } from '../../cms.component';
+import * as moment from 'moment';
+moment.locale('ru');
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +10,11 @@ import { CMSComponent } from '../../cms.component';
 })
 
 export class DashboardComponent implements OnInit {
-  public shareChartLabels: string[] = ['vk', 'fb', 'tw'];
+  public shareChartLabels: string[] = ['один', 'второй', 'третий'];
   public shareChartData: number[] = [350, 450, 125];
   public shareChartType = 'doughnut';
 
-  public userTypeChartLabels: string[] = ['Пользователь', 'Магазин'];
+  public userTypeChartLabels: string[] = ['Баланс', 'Займы'];
   public userTypeChartData: number[] = [350, 450];
   public userTypeChartType = 'doughnut';
 
@@ -28,12 +30,18 @@ export class DashboardComponent implements OnInit {
   public monthChartLegend = true;
 
   public monthChartData: any[] = [
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Переходы'},
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Заказы'}
+    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Курс BTC'},
+    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'}
   ];
 
-  public lastUsers;
-  public lastOrders;
+  public completeBalances;
+  public availableBalances;
+  public openLoansOffer;
+  public average;
+  public activeLoans;
+  public lastLoans;
+  public landingBTCBalance = 0;
+
   public users = {
     all: 0,
     today: 0,
@@ -43,10 +51,9 @@ export class DashboardComponent implements OnInit {
     allTurn: 0,
   };
 
-  public orderStatuses = {
-    pending: 'Ожидает',
-    approved: 'Подтверждён',
-    declined: 'Отклонён'
+  public autoRenew = {
+    0: 'Отключено',
+    1: 'Включено',
   };
 
   constructor(private cmsComponent: CMSComponent) { }
@@ -60,17 +67,28 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getLastUsers();
-    this.getUsersStats();
-    this.getConvers();
-    this.getLastOrders();
-    this.getShareStats();
+    this.refresh();
+    setInterval(() => {
+      this.refresh();
+    }, 15000);
   }
 
-  public getLastUsers() {
-    this.cmsComponent._apiService.getLastUsers(this.cmsComponent.jwtToken).subscribe(
+  public refresh() {
+    this.getCompleteBalances();
+    this.getAvailableBalances();
+    this.getOpenLoansOffer();
+    this.getActiveLoansOffer();
+    this.getAverage();
+    this.getLastLoans();
+  }
+
+  public getAvailableBalances() {
+    this.cmsComponent._apiService.getAvailableBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.lastUsers = data;
+        this.availableBalances = data;
+        if (Array.isArray(this.availableBalances.lending) && this.availableBalances.lending[0].balance) {
+          this.landingBTCBalance = this.availableBalances.lending[0].balance;
+        }
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -78,10 +96,10 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  public getLastOrders() {
-    this.cmsComponent._apiService.getLastOrders(this.cmsComponent.jwtToken).subscribe(
+  public getCompleteBalances() {
+    this.cmsComponent._apiService.getCompleteBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.lastOrders = data;
+        this.completeBalances = data;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -89,11 +107,10 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  public getUsersStats() {
-    this.cmsComponent._apiService.getUsersStats(this.cmsComponent.jwtToken).subscribe(
+  public getOpenLoansOffer() {
+    this.cmsComponent._apiService.getOpenLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.users = data;
-        this.userTypeChartData = [data.users, data.shops];
+        this.openLoansOffer = data;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -101,10 +118,10 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  public getConvers() {
-    this.cmsComponent._apiService.getConvers(this.cmsComponent.jwtToken).subscribe(
+  public getActiveLoansOffer() {
+    this.cmsComponent._apiService.getActiveLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.monthChartData = data;
+        this.activeLoans = data.provided;        ;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -112,15 +129,46 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  public getShareStats() {
-    this.cmsComponent._apiService.getShareStats(this.cmsComponent.jwtToken).subscribe(
+  public getAverage() {
+    this.cmsComponent._apiService.getAverageRate(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.shareChartData = data;
+        this.average = data.average.toFixed(8);
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
       }
     );
+  }
+
+  public getLastLoans() {
+    this.cmsComponent._apiService.getLastLoans(this.cmsComponent.jwtToken).subscribe(
+      data => {
+        this.lastLoans = data;
+      },
+      err => {
+        this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
+      }
+    );
+  }
+
+  public cancelLoanOffer(loanId) {
+    this.cmsComponent._apiService.cancelLoanOffer(this.cmsComponent.jwtToken, loanId).subscribe(
+      data => {
+        this.cmsComponent._notificationsService.success('Предложение успешно отменено', '');
+        this.getOpenLoansOffer();
+      },
+      err => {
+        this.cmsComponent._notificationsService.error('Ошибка при отмене предложения', '');
+      }
+    );
+  }
+
+  public calculateRamain(loan) {
+
+    const startDate = moment(loan.date);
+    const endDate = moment(loan.date).add(parseInt(loan.duration), 'days');
+
+    return startDate.to(endDate);
   }
 
 }
