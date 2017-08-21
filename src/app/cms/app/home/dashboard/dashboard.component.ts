@@ -115,7 +115,9 @@ export class DashboardComponent implements OnInit {
   public getCompleteBalances() {
     this.cmsComponent._apiService.getCompleteBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.completeBalances = data;
+        if (Array.isArray(data) && data.length > 0) {
+          this.completeBalances = data;
+        }
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
