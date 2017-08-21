@@ -36,25 +36,41 @@
     </div>
     <div class="flex-between align-center">
       <div class="big-num">
-        4573
+        {{coinsPrice['USDT_BTC']?.last}}
       </div>
       <div class="arrow">
-        <md-icon class="up-icon">arrow_upward</md-icon>
-        <!-- <md-icon class="down-icon">arrow_downward</md-icon> -->
+        <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
+        <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
       </div>
       <md-icon class="bg-icon">attach_money</md-icon>
     </div>
     <div class="ps-info">
       <span class="ps-title">
-        Вчера.:
+        Изменение:
       </span>
       <span>
-        4500
+        {{coinsPrice['USDT_BTC']?.percentChange * 100}}%
       </span>
     </div>
   </md-card>
 </div>
 <div class="flex-center flex-wrap charts-wrapper">
+  <md-card class="chart-wrapper chart-wrapper-500">
+    <div class="table-title">
+      Статистика по средней ставке
+    </div>
+    <div>
+      <canvas id ="chartAverageLoanDays" baseChart
+                  [datasets]="averageLoanDaysData"
+                  [labels]="averageLoanDaysLabels"
+                  [options]="averageLoanDaysOptions"
+                  [legend]="averageLoanDaysLegend"
+                  [chartType]="averageLoanDaysType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </md-card>
+  <div class="layer"></div>
   <md-card class="chart-wrapper chart-wrapper-300">
     <div class="table-title">
       Соотношения доступный баланс/открытые предложения
@@ -69,35 +85,6 @@
     </div>
   </md-card>
   <div class="layer"></div>
-  <md-card class="chart-wrapper chart-wrapper-500">
-    <div class="table-title">
-      Статистика по средней ставке
-    </div>
-    <div>
-      <canvas baseChart
-            [datasets]="monthChartData"
-            [labels]="monthChartLabels"
-            [options]="monthChartOptions"
-            [legend]="monthChartLegend"
-            [chartType]="monthChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-    </div>
-  </md-card>
-  <div class="layer"></div>
-  <md-card class="chart-wrapper chart-wrapper-300">
-    <div class="table-title">
-      Тут будет еще диаграммка
-    </div>
-    <div>
-      <canvas baseChart
-                  [data]="shareChartData"
-                  [labels]="shareChartLabels"
-                  [chartType]="shareChartType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
-    </div>
-  </md-card>
 </div>
 <div class="flex tables-wrapper ">
   <md-card class="full-width ">

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CMSComponent } from '../../cms.component';
+import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import * as moment from 'moment';
 moment.locale('ru');
 
@@ -10,36 +11,36 @@ moment.locale('ru');
 })
 
 export class DashboardComponent implements OnInit {
-  public shareChartLabels: string[] = ['один', 'второй', 'третий'];
-  public shareChartData: number[] = [350, 450, 125];
-  public shareChartType = 'doughnut';
+  @ViewChild(BaseChartDirective) chartAverageLoanDays: BaseChartDirective;
 
   public userTypeChartLabels: string[] = ['Баланс', 'Займы'];
-  public userTypeChartData: number[] = [350, 450];
+  public userTypeChartData: number[] = [0, 0];
   public userTypeChartType = 'doughnut';
 
-  public monthChartOptions: any = {
+  public averageLoanDaysOptions: any = {
     scaleShowVerticalLines: false,
     responsive: true
   };
-  public monthChartLabels: string[] = [
-    'Янв', 'Фев', 'Мрт', 'Апр', 'Май', 'Июн', 'Июл',
-    'Авг' , 'Сент' , 'Окт', 'Нбр', 'Дек'
-    ];
-  public monthChartType = 'bar';
-  public monthChartLegend = true;
+  public averageLoanDaysLabels: string[] = [];
+  public averageLoanDaysType = 'bar';
+  public averageLoanDaysLegend = true;
 
-  public monthChartData: any[] = [
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Курс BTC'},
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'}
+  public averageLoanDaysData: any[] = [
+    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'},
   ];
 
-  public completeBalances;
-  public availableBalances;
-  public openLoansOffer;
-  public average;
-  public activeLoans;
-  public lastLoans;
+  public completeBalances: any;
+  public availableBalances: any;
+  public openLoansOffer: any;
+  public average: any;
+  public activeLoans: any;
+  public lastLoans: any;
+  public coinsPrice = {
+    USDT_BTC: {
+      last: 0,
+      percentChange: 0,
+    },
+  };
   public landingBTCBalance = 0;
 
   public users = {
@@ -70,7 +71,8 @@ export class DashboardComponent implements OnInit {
     this.refresh();
     setInterval(() => {
       this.refresh();
-    }, 15000);
+      this.calculateRatio();
+    }, 5000);
   }
 
   public refresh() {
@@ -80,13 +82,17 @@ export class DashboardComponent implements OnInit {
     this.getActiveLoansOffer();
     this.getAverage();
     this.getLastLoans();
+    this.getAverageDayRate();
+    this.getCoinsPrice();
   }
 
   public getAvailableBalances() {
     this.cmsComponent._apiService.getAvailableBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
         this.availableBalances = data;
-        if (Array.isArray(this.availableBalances.lending) && this.availableBalances.lending[0].balance) {
+        if (Array.isArray(this.availableBalances.lending)
+          && this.availableBalances.lending[0]
+          && this.availableBalances.lending[0].balance) {
           this.landingBTCBalance = this.availableBalances.lending[0].balance;
         }
       },
@@ -94,6 +100,16 @@ export class DashboardComponent implements OnInit {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
       }
     );
+  }
+
+  public calculateRatio() {
+    if (!this.activeLoans) {
+      return;
+    }
+    const inLoans = this.activeLoans.reduce((summ: any, el: any) => {
+      return parseFloat(summ) + (parseFloat(el.amount) * 100);
+    }, 0);
+    this.userTypeChartData = [this.landingBTCBalance, inLoans.toFixed(5)];
   }
 
   public getCompleteBalances() {
@@ -110,7 +126,9 @@ export class DashboardComponent implements OnInit {
   public getOpenLoansOffer() {
     this.cmsComponent._apiService.getOpenLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.openLoansOffer = data;
+        if (Array.isArray(data) && data.length > 0) {
+          this.openLoansOffer = data;
+        }
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -121,7 +139,7 @@ export class DashboardComponent implements OnInit {
   public getActiveLoansOffer() {
     this.cmsComponent._apiService.getActiveLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.activeLoans = data.provided;        ;
+        this.activeLoans = data.provided;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -143,7 +161,20 @@ export class DashboardComponent implements OnInit {
   public getLastLoans() {
     this.cmsComponent._apiService.getLastLoans(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.lastLoans = data;
+        if (Array.isArray(data) && data.length > 0) {
+          this.lastLoans = data;
+        }
+      },
+      err => {
+        this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
+      }
+    );
+  }
+
+  public getCoinsPrice() {
+    this.cmsComponent._apiService.getCoinsPrice(this.cmsComponent.jwtToken).subscribe(
+      data => {
+        this.coinsPrice = data;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -169,6 +200,36 @@ export class DashboardComponent implements OnInit {
     const endDate = moment(loan.date).add(parseInt(loan.duration), 'days');
 
     return startDate.to(endDate);
+  }
+
+  public getAverageDayRate() {
+    this.cmsComponent._apiService.getAverageDayRate(this.cmsComponent.jwtToken).subscribe(
+      data => {
+        const labels = [];
+        const days = data.reverse();
+        const clone = JSON.parse(JSON.stringify(this.averageLoanDaysData));
+        clone[0].data = [];
+        for (const day of data) {
+          labels.push(`${day._id.day}.${day._id.month}.${day._id.year}`);
+          clone[0].data.push((day.average * 100).toFixed(5));
+        }
+
+        this.averageLoanDaysLabels = labels;
+        this.averageLoanDaysData = clone;
+
+        setTimeout(() => {
+            if (this.chartAverageLoanDays && this.chartAverageLoanDays.chart
+              && this.chartAverageLoanDays.chart.config) {
+                this.chartAverageLoanDays.chart.config.data.labels = labels;
+                this.chartAverageLoanDays.chart.update();
+
+            }
+        });
+      },
+      err => {
+        this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
+      }
+    );
   }
 
 }

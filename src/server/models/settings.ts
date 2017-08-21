@@ -18,6 +18,10 @@ const setSchema = new Schema({
 
     body: {},
 
+    limitCoinInLoan: Number,
+    limitLoans: Number,
+    averagePlus: Number,
+
     settings: {},
 
     dateUpdate: {

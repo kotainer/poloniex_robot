@@ -110,6 +110,7 @@ router
     // BALANCES
     .get('/balances/complete', balances.complete)
     .get('/balances/available', balances.available)
+    .get('/balances/price', balances.coinsPrice)
 
     // ------------------------------------------------
 
@@ -117,6 +118,7 @@ router
     .get('/loans/open', loans.openLoanOffers)
     .get('/loans/active', loans.activeLoans)
     .get('/loans/average', loans.averageRate)
+    .get('/loans/average/days', loans.averageDayRate)
     .get('/loans/last', loans.last)
 
     .post('/loans/:id/cancel', loans.cancelLoan)

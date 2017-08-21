@@ -248,11 +248,6 @@ export class ApiService {
             .map((res: Response) => res.json());
     }
 
-    public getAverageDayRate() {
-        return this.http.get(`${apiUrl}loans/averageday`)
-            .map((res: Response) => res.json());
-    }
-
     public getCompleteBalances(jwt: string) {
         const headers = new Headers();
         headers.append('Authorization', jwt);
@@ -314,6 +309,24 @@ export class ApiService {
         headers.append('Authorization', jwt);
 
         return this.http.get(`${apiUrl}loans/last`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getAverageDayRate(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}loans/average/days`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
+    public getCoinsPrice(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}balances/price`,
             { headers: headers })
             .map((res: Response) => res.json());
     }

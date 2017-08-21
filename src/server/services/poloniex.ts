@@ -14,40 +14,50 @@ const privateKey = 'f4663943cdbe1f39e20213ff2fc0f3c98e8e1d50e1d50f52e23b9a2636d4
 const publicKey = 'MH2DCW1X-CE4IGD31-ETWIPOSC-XX3Z6RYJ';
 
 const loanAPIURL = 'https://poloniex.com/public?command=returnLoanOrders&currency=BTC';
+const tickerAPIURL = 'https://poloniex.com/public?command=returnTicker';
 
 export class PoloniexAPI {
     wsuri = 'wss://api.poloniex.com';
     connection;
     lastLoans = [];
+    myOpenLoansCount = 0;
+    coins = [];
     constructor() {
-        this.connection = new autobahn.Connection({
-            url: this.wsuri,
-            realm: 'realm1'
-        });
+        // this.connection = new autobahn.Connection({
+        //     url: this.wsuri,
+        //     realm: 'realm1'
+        // });
 
-        this.connection.onopen = (session) => {
-            function marketEvent (args, kwargs) {
-                    console.log(args);
-            }
-            session.subscribe('USDT_BTC', marketEvent);
-        };
+        // this.connection.onopen = (session) => {
+        //     function marketEvent (args, kwargs) {
+        //             console.log(args);
+        //     }
+        //     session.subscribe('ticker', marketEvent);
+        // };
 
-        this.connection.onclose = () => {
-            console.log('Websocket connection closed');
-        };
+        // this.connection.onclose = () => {
+        //     console.log('Websocket connection closed');
+        // };
 
         // this.connection.open();
 
         setInterval(() => {
-            // this.getMyBalances();
             this.getLoanBTC();
-            // this.returnCompleteBalances();
-            // this.returnOpenLoanOffers();
         }, 4000);
-        // this.returnAvailableAccountBalances();
-        // this.getMyBalances();
-        // this.returnActiveLoans();
-        // this.returnOpenLoanOffers();
+
+        setInterval(() => {
+            this.returnAvailableAccountBalances();
+            this.getMyBalances();
+            this.returnActiveLoans();
+            this.returnOpenLoanOffers();
+            this.returnTicker();
+        }, 40000);
+
+        this.returnAvailableAccountBalances();
+        this.getMyBalances();
+        this.returnActiveLoans();
+        this.returnOpenLoanOffers();
+        this.returnTicker();
         // this.createLoanOffer({rate: '0.0096', count: '0.0123456', range: '2'});
     }
 
@@ -72,6 +82,26 @@ export class PoloniexAPI {
 
     getLastLoans() {
         return _.take(_.sortBy(this.lastLoans, [(el) => { return el.rate; }]), 10);
+    }
+
+    getCoinsPrice() {
+        return this.coins;
+    }
+
+    async returnTicker() {
+        const coins: any = await new Promise(resolve => {
+            this.coins = [];
+            rp(tickerAPIURL)
+            .then(coinsHTML => {
+                this.coins = JSON.parse(coinsHTML);
+                resolve();
+            })
+            .catch((err) => {
+                // console.log(err);
+                console.log('error network: returnTicker');
+                resolve([]);
+            });
+        });
     }
 
     async getLoanBTC() {
@@ -282,7 +312,12 @@ export class PoloniexAPI {
             this.makeRequest('returnActiveLoans', {})
             .then((r: any) => {
               if (r.body) {
-                  return resolve(JSON.parse(r.body));
+                  const myLoans = JSON.parse(r.body);
+                  if (Array.isArray(myLoans)) {
+                    this.myOpenLoansCount = myLoans.length;
+                  }
+
+                  return resolve(myLoans);
               }
               resolve([]);
             }).catch(err => {

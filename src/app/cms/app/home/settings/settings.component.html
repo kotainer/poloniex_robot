@@ -4,65 +4,18 @@
 <md-card class="center-card">
   <form class="center-form" #settingsForm="ngForm" >
     <div class="form-title">
-      Настройки исходящей почты
+      Настройки займов
     </div>
     <md-input-container>
-      <input mdInput type="email" placeholder="Почтовый ящик"  name="email" [ngModel]="settings.body.email.email" (ngModelChange)="settings.body.email.email=$event">
+      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitCoinInLoan" (ngModelChange)="settings.limitCoinInLoan=$event">
     </md-input-container>
     <md-input-container>
-      <input mdInput type="text" placeholder="SMTP-сервер"  name="smtp"  [ngModel]="settings.body.email.smtp" (ngModelChange)="settings.body.email.smtp=$event">
+      <input mdInput type="number" placeholder="Лимит на количество займов"  name="countLimit"  [ngModel]="settings.limitLoans" (ngModelChange)="settings.limitLoans=$event">
     </md-input-container>
     <md-input-container>
-      <input mdInput type="text" placeholder="Логин"  name="login" [ngModel]="settings.body.email.login" (ngModelChange)="settings.body.email.login=$event">
+      <input mdInput type="text" placeholder="Превышение средней ставки"  name="rate" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
     </md-input-container>
-    <md-input-container>
-      <input mdInput type="password" placeholder="Пароль"  name="password" [ngModel]="settings.body.email.password" (ngModelChange)="settings.body.email.password=$event">
-    </md-input-container>
-  <div class="form-title">
-    Остальные настройки
-  </div>
-    <md-input-container>
-      <input mdInput type="email" placeholder="Почта админа"  name="adminEmail" [ngModel]="settings.body.other.adminEmail" (ngModelChange)="settings.body.other.adminEmail=$event">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Почта для заказов"  name="orderEmail" [ngModel]="settings.body.other.orderEmail" (ngModelChange)="settings.body.other.orderEmail=$event">
-    </md-input-container>
-  <div class="form-title">
-    SEO
-  </div>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Заголовок"  name="seoTitle" [(ngModel)]="settings.body.seo.seoTitle">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Описание"  name="seoDescription" [(ngModel)]="settings.body.seo.seoDescription">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Ключевые слова"  name="seoKeywords" [(ngModel)]="settings.body.seo.seoKeywords">
-    </md-input-container>
-  <div class="form-title">
-    Настройки счетчиков и стороннего javascript
-  </div>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Мета-тег Google"  name="metaGoogle" [(ngModel)]="settings.body.js.metaGoogle">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Мета-тег Яндекс"  name="metaYandex" [(ngModel)]="settings.body.js.metaYandex">
-    </md-input-container>
-    <md-input-container>
-      <textarea mdInput  rows="4" cols="80" placeholder="Пользовательский код" name="code" [(ngModel)]="settings.body.js.code"></textarea>
-    </md-input-container>
-  <div class="form-title">
-    Контакты
-  </div>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Адрес"  name="userAddress" [(ngModel)]="settings.body.contacts.userAddress">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Телефон"  name="userPhone" [(ngModel)]="settings.body.contacts.userPhone">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Email"  name="userEmail" [(ngModel)]="settings.body.contacts.userEmail">
-    </md-input-container>
+  
     <div class="layer"></div>
     <div class="flex-center">
       <button type="button" class="btn btn-green" name="save" (click)="saveSettings()">

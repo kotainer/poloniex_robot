@@ -1,6 +1,7 @@
 import * as validate from '../../services/validateToken';
 import * as _ from 'lodash';
 import appServer from '../../server';
+import * as Loan from '../../models/loan';
 
 export class Loans {
 
@@ -72,6 +73,21 @@ export class Loans {
             ctx.status = 401;
         }
 
+        await next();
+    }
+
+    averageDayRate = async (ctx, next) => {
+        ctx.body = await Loan.aggregate([
+        {
+            $group: {
+                '_id': {
+                    'day': { '$dayOfMonth': '$createdDate' },
+                    'month': { '$month': '$createdDate' },
+                    'year': { '$year': '$createdDate' },
+                },
+                average: { $avg: '$rate' }
+            }
+        }]);
         await next();
     }
 

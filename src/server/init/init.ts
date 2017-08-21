@@ -26,12 +26,10 @@ const baseInitiDB = async () => {
         settings = await Settings.create({
             _id: uuid(),
             tag: 'main',
-            settings: {
-                limitLoans : 10,
-                limitCoinInLoan : 250,
-                averagePlus : 0.125,
-                autoLoan : 1,
-            },
+            limitLoans : 10,
+            limitCoinInLoan : 25,
+            averagePlus : 0.125,
+            autoLoan : 1,
         });
     }
 

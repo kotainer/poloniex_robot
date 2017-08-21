@@ -27,4 +27,14 @@ export class Balances {
         await next();
     }
 
+    coinsPrice = async (ctx, next) => {
+        if (await validate.validateToken(ctx.headers.authorization)) {
+            ctx.body = await appServer.poloniex.getCoinsPrice();
+        } else {
+            ctx.status = 401;
+        }
+
+        await next();
+    }
+
 }

@@ -9,35 +9,11 @@ import * as _ from 'lodash';
 })
 export class SettingsComponent implements OnInit {
   public settings = {
-    _id: '',
-    body: {
-      email: {
-        email: '',
-        smtp: '',
-        login: '',
-        password: '',
-      },
-      other: {
-        adminEmail: '',
-        orderEmail: '',
-      },
-      seo: {
-        seoTitle: '',
-        seoDescription: '',
-        seoKeywords: '',
-      },
-      js: {
-        metaGoogle: '',
-        metaYandex: '',
-        code: '',
-      },
-      contacts: {
-        userAddress: '',
-        userPhone: '',
-        userEmail: '',
-      }
-    }
+    limitCoinInLoan: 5,
+    limitLoans: 10,
+    averagePlus: 0.00125,
   };
+  public _id = '';
 
   constructor(public cmsComponent: CMSComponent) {}
 
@@ -49,6 +25,7 @@ export class SettingsComponent implements OnInit {
     this.cmsComponent._apiService.getSettingsByTag(this.cmsComponent.jwtToken, 'main').subscribe(
       result => {
         if (result) {
+          this._id = result._id;
           this.settings = _.merge(this.settings, result);
         }
       },
@@ -60,7 +37,7 @@ export class SettingsComponent implements OnInit {
 
   public saveSettings() {
     this.cmsComponent._apiService.updateSettings(this.cmsComponent.jwtToken,
-      this.settings._id, this.settings).subscribe(
+      this._id, this.settings).subscribe(
       result => {
         this.cmsComponent._notificationsService.success('Настройки успешно сохранены', '');
       },
