@@ -165,7 +165,7 @@ export class DashboardComponent implements OnInit {
 
   public calculateRamain(loan) {
 
-    const startDate = moment(loan.date);
+    const startDate = moment();
     const endDate = moment(loan.date).add(parseInt(loan.duration), 'days');
 
     return startDate.to(endDate);
