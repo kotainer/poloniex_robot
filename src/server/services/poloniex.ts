@@ -98,7 +98,7 @@ export class PoloniexAPI {
                 _loan.rate = rate.toFixed(5);
                 const loan = new Loan(_loan);
                 await loan.save();
-                await this.checkRate(loan);
+                // await this.checkRate(loan);
             }
         }
     }
