@@ -53,6 +53,11 @@ export class PoloniexAPI {
             this.returnTicker();
         }, 40000);
 
+        setInterval(() => {
+            this.saveLoanBTC();
+
+        }, 100000);
+
         this.returnAvailableAccountBalances();
         this.getMyBalances();
         this.returnActiveLoans();
@@ -121,6 +126,26 @@ export class PoloniexAPI {
         });
 
         for (const _loan of loans) {
+            // await this.checkRate(_loan);
+        }
+    }
+
+    async saveLoanBTC() {
+        const loans: any = await new Promise(resolve => {
+            this.lastLoans = [];
+            rp(loanAPIURL)
+            .then(ratingsHTML => {
+                const ratings = JSON.parse(ratingsHTML);
+                this.lastLoans = ratings.offers;
+                resolve(ratings.offers);
+            })
+            .catch((err) => {
+                console.log('error network: saveLoanBTC');
+                resolve([]);
+            });
+        });
+
+        for (const _loan of loans) {
             const existLoan = await Loan.findOne(_loan);
             if (!existLoan) {
                 _loan.coin = 'BTC';
@@ -128,7 +153,6 @@ export class PoloniexAPI {
                 _loan.rate = rate.toFixed(5);
                 const loan = new Loan(_loan);
                 await loan.save();
-                // await this.checkRate(loan);
             }
         }
     }
