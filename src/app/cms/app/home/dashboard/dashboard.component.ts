@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
       return;
     }
     const inLoans = this.activeLoans.reduce((summ: any, el: any) => {
-      return parseFloat(summ) + (parseFloat(el.amount) * 100);
+      return parseFloat(summ) + (parseFloat(el.amount));
     }, 0);
     this.userTypeChartData = [this.landingBTCBalance, inLoans.toFixed(5)];
   }
