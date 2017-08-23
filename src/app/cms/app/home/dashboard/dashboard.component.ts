@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit {
     setInterval(() => {
       this.refresh();
       this.calculateRatio();
-    }, 5000);
+    }, 20000);
   }
 
   public refresh() {
