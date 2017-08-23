@@ -58,7 +58,7 @@ export class PoloniexAPI {
         this.returnActiveLoans();
         this.returnOpenLoanOffers();
         this.returnTicker();
-        this.createLoanOffer({rate: '0.000019', count: '0.0453456', range: '2'});
+        // this.createLoanOffer({rate: '0.0019', count: '0.0453456', range: '2'});
     }
 
     makeRequest(command, opts) {

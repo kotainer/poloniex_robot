@@ -57,6 +57,8 @@ export class DashboardComponent implements OnInit {
     1: 'Включено',
   };
 
+  private daysIsBusy = false;
+
   constructor(private cmsComponent: CMSComponent) { }
 
   public chartClicked(e: any): void {
@@ -205,6 +207,10 @@ export class DashboardComponent implements OnInit {
   }
 
   public getAverageDayRate() {
+    if (this.daysIsBusy) {
+      return;
+    }
+    this.daysIsBusy = true;
     this.cmsComponent._apiService.getAverageDayRate(this.cmsComponent.jwtToken).subscribe(
       data => {
         const labels = [];
@@ -227,9 +233,11 @@ export class DashboardComponent implements OnInit {
 
             }
         });
+        this.daysIsBusy = false;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
+        this.daysIsBusy = false;
       }
     );
   }
