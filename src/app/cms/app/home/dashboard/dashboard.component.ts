@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit {
     this.cmsComponent._apiService.getAverageDayRate(this.cmsComponent.jwtToken).subscribe(
       data => {
         const labels = [];
-        const days = data.reverse();
+        const days = data;
         const clone = JSON.parse(JSON.stringify(this.averageLoanDaysData));
         clone[0].data = [];
         for (const day of data) {
