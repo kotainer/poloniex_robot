@@ -4,6 +4,7 @@ const uuid = require('uuid');
 
 interface ILoan extends Document {
     slug: string;
+    createdDate: any;
 }
 
 const schema = new Schema({

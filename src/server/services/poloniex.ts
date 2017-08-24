@@ -63,7 +63,7 @@ export class PoloniexAPI {
         this.returnActiveLoans();
         this.returnOpenLoanOffers();
         this.returnTicker();
-        // this.createLoanOffer({rate: '0.0019', count: '0.0453456', range: '2'});
+        // this.createLoanOffer({rate: '0.0021', count: '0.011', range: '2'});
     }
 
     makeRequest(command, opts) {
@@ -124,10 +124,7 @@ export class PoloniexAPI {
                 resolve([]);
             });
         });
-
-        for (const _loan of loans) {
-            // await this.checkRate(_loan);
-        }
+        await this.checkRate(loans);
     }
 
     async saveLoanBTC() {
@@ -152,6 +149,7 @@ export class PoloniexAPI {
                 const rate = parseFloat(_loan.rate);
                 _loan.rate = rate.toFixed(5);
                 const loan = new Loan(_loan);
+                loan.createdDate = new Date();
                 await loan.save();
             }
         }
@@ -163,31 +161,34 @@ export class PoloniexAPI {
         return average;
     }
 
-    async checkRate(loan) {
-        const main = await Settings.findOne({tag: 'main'});
-        const myCount = await MyLoan.find().count();
-        // console.log(myCount);
-        if (!main) {
-            console.log('settings not found');
-            return;
-        }
+    async checkRate(loans) {
+        for (const loan of loans) {
 
-        if (myCount >= main.settings.limitLoans) {
-            console.log('limit count exeed');
-            return;
         }
+        // const main = await Settings.findOne({tag: 'main'});
+        // const myCount = await MyLoan.find().count();
+        // // console.log(myCount);
+        // if (!main) {
+        //     console.log('settings not found');
+        //     return;
+        // }
 
-        if (loan.rate >= main.settings.autoLoan) {
-            // Даем займ
-            console.log('Делаем предложение', loan);
-            return;
-        }
-        const average: any = await this.getAverageRate();
-        if (loan.rate >= average.average + main.settings.averagePlus) {
-            // Даем займ
-            console.log('Делаем предложение', loan);
-            return;
-        }
+        // if (myCount >= main.settings.limitLoans) {
+        //     console.log('limit count exeed');
+        //     return;
+        // }
+
+        // if (loan.rate >= main.settings.autoLoan) {
+        //     // Даем займ
+        //     console.log('Делаем предложение', loan);
+        //     return;
+        // }
+        // const average: any = await this.getAverageRate();
+        // if (loan.rate >= average.average + main.settings.averagePlus) {
+        //     // Даем займ
+        //     console.log('Делаем предложение', loan);
+        //     return;
+        // }
 
         // console.log('НЕ делаем предложение');
     }
