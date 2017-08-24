@@ -218,7 +218,7 @@ export class DashboardComponent implements OnInit {
         const clone = JSON.parse(JSON.stringify(this.averageLoanDaysData));
         clone[0].data = [];
         for (const day of data) {
-          labels.push(`${day._id.day}.${day._id.month}.${day._id.year}`);
+          labels.push(`${day.day}.${day.month}.${day.year}`);
           clone[0].data.push((day.average * 100).toFixed(5));
         }
 

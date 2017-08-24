@@ -3,6 +3,14 @@ import * as _ from 'lodash';
 import appServer from '../../server';
 import * as Loan from '../../models/loan';
 
+interface DaysLoan {
+    _id: {
+        day: number;
+        month: number;
+        year: number;
+    };
+}
+
 export class Loans {
 
     /**
@@ -77,7 +85,7 @@ export class Loans {
     }
 
     averageDayRate = async (ctx, next) => {
-        ctx.body = await Loan.aggregate([
+        const days: any = await Loan.aggregate([
         {
             $group: {
                 '_id': {
@@ -88,6 +96,13 @@ export class Loans {
                 average: { $avg: '$rate' }
             }
         }]);
+        for (const day of days) {
+            day.day = day._id.day;
+            day.month = day._id.month;
+            day.year = day._id.year;
+            delete day._id;
+        }
+        ctx.body = _.sortBy(days, ['year', 'month', 'day']);
         await next();
     }
 

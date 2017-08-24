@@ -143,15 +143,12 @@ export class PoloniexAPI {
         });
 
         for (const _loan of loans) {
-            const existLoan = await Loan.findOne(_loan);
-            if (!existLoan) {
-                _loan.coin = 'BTC';
-                const rate = parseFloat(_loan.rate);
-                _loan.rate = rate.toFixed(5);
-                const loan = new Loan(_loan);
-                loan.createdDate = new Date();
-                await loan.save();
-            }
+            _loan.coin = 'BTC';
+            const rate = parseFloat(_loan.rate);
+            _loan.rate = rate.toFixed(5);
+            const loan = new Loan(_loan);
+            loan.createdDate = new Date();
+            await loan.save();
         }
     }
 
