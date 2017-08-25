@@ -19,6 +19,9 @@
       <input mdInput type="text" placeholder="Превышение средней ставки"  name="averagePlus" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
     </md-input-container>
     <md-input-container>
+      <input mdInput type="text" placeholder="Уменьшение средней ставки"  name="averageMinus" [ngModel]="settings.averageMinus" (ngModelChange)="settings.averageMinus=$event">
+    </md-input-container>
+    <md-input-container>
       <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxCount" (ngModelChange)="settings.maxCount=$event">
     </md-input-container>
 

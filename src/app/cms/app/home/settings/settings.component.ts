@@ -12,6 +12,7 @@ export class SettingsComponent implements OnInit {
     limitCoinInLoan: 5,
     limitLoans: 10,
     averagePlus: 0.00125,
+    averageMinus: 0,
     maxCount: 0.01,
     minRate: 0.0099,
   };

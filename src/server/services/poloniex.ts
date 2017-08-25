@@ -180,7 +180,11 @@ export class PoloniexAPI {
                 if (this.averageCurrentDay === 0) {
                     return 0;
                 }
-                this.createLoanOffer({rate: this.averageCurrentDay + settings.averagePlus / 100, count, range: '2'});
+                this.createLoanOffer({
+                    rate: (this.averageCurrentDay + settings.averagePlus / 100 - settings.averageMinus / 100),
+                    count,
+                    range: '2',
+                });
             }
             this.btcBalance -= count;
         }

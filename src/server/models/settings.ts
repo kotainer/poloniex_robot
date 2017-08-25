@@ -21,6 +21,7 @@ const setSchema = new Schema({
     limitCoinInLoan: Number,
     limitLoans: Number,
     averagePlus: Number,
+    averageMinus: Number,
     maxCount: Number,
     minRate: Number,
 
