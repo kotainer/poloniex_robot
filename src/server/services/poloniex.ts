@@ -163,15 +163,16 @@ export class PoloniexAPI {
         if (this.btcBalance < 0.01) {
             return 0;
         }
-
+        console.log('balance', this.btcBalance);
         const settings: any = await Settings.findOne({tag: 'main'});
-        // console.log('settings', settings);
         const minRate = loans[0];
-
+        console.log('minRate', minRate);
         if (minRate) {
             const rate = parseFloat(minRate.rate);
+            console.log('rate', rate);
             if (rate > settings.minRate / 100) {
                 const count = this.btcBalance > settings.maxCount ? settings.maxCount : this.btcBalance;
+                console.log('count', count);
                 this.btcBalance -= count;
                 this.createLoanOffer({rate: settings.minRate / 100, count, range: '2'});
             }
