@@ -130,9 +130,7 @@ export class DashboardComponent implements OnInit {
   public getOpenLoansOffer() {
     this.cmsComponent._apiService.getOpenLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
-        if (Array.isArray(data) && data.length > 0) {
           this.openLoansOffer = data;
-        }
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
