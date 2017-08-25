@@ -72,6 +72,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.refresh();
     this.getAverageDayRate();
+    this.getAverage();
     setInterval(() => {
       this.refresh();
       this.calculateRatio();
@@ -83,7 +84,6 @@ export class DashboardComponent implements OnInit {
     this.getAvailableBalances();
     this.getOpenLoansOffer();
     this.getActiveLoansOffer();
-    this.getAverage();
     this.getLastLoans();
     this.getCoinsPrice();
   }
