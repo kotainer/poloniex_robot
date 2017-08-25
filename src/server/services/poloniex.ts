@@ -21,6 +21,7 @@ export class PoloniexAPI {
     connection;
     lastLoans = [];
     myOpenLoansCount = 0;
+    btcBalance = 0;
     coins = [];
     constructor() {
         // this.connection = new autobahn.Connection({
@@ -159,35 +160,22 @@ export class PoloniexAPI {
     }
 
     async checkRate(loans) {
-        for (const loan of loans) {
-
+        if (this.btcBalance < 0.01) {
+            return 0;
         }
-        // const main = await Settings.findOne({tag: 'main'});
-        // const myCount = await MyLoan.find().count();
-        // // console.log(myCount);
-        // if (!main) {
-        //     console.log('settings not found');
-        //     return;
-        // }
 
-        // if (myCount >= main.settings.limitLoans) {
-        //     console.log('limit count exeed');
-        //     return;
-        // }
+        const settings: any = await Settings.findOne({tag: 'main'});
+        // console.log('settings', settings);
+        const minRate = loans[0];
 
-        // if (loan.rate >= main.settings.autoLoan) {
-        //     // Даем займ
-        //     console.log('Делаем предложение', loan);
-        //     return;
-        // }
-        // const average: any = await this.getAverageRate();
-        // if (loan.rate >= average.average + main.settings.averagePlus) {
-        //     // Даем займ
-        //     console.log('Делаем предложение', loan);
-        //     return;
-        // }
-
-        // console.log('НЕ делаем предложение');
+        if (minRate) {
+            const rate = parseFloat(minRate.rate);
+            if (rate > settings.minRate / 100) {
+                const count = this.btcBalance > settings.maxCount ? settings.maxCount : this.btcBalance;
+                this.btcBalance -= count;
+                this.createLoanOffer({rate: settings.minRate / 100, count, range: '2'});
+            }
+        }
     }
 
     async getNonce() {
@@ -262,7 +250,12 @@ export class PoloniexAPI {
             this.makeRequest('returnAvailableAccountBalances', {})
             .then((r: any) => {
               if (r.body) {
-                  return resolve(JSON.parse(r.body));
+                const b = JSON.parse(r.body);
+                if (b.lending && b.lending.BTC) {
+                    this.btcBalance = b.lending.BTC;
+                }
+
+                return resolve(b);
               }
               resolve([]);
             }).catch(err => {

@@ -13,9 +13,15 @@
       <input mdInput type="number" placeholder="Лимит на количество займов"  name="countLimit"  [ngModel]="settings.limitLoans" (ngModelChange)="settings.limitLoans=$event">
     </md-input-container>
     <md-input-container>
-      <input mdInput type="text" placeholder="Превышение средней ставки"  name="rate" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
+      <input mdInput type="text" placeholder="Минимальный процент"  name="minrate" [ngModel]="settings.minRate" (ngModelChange)="settings.minRate=$event">
     </md-input-container>
-  
+    <md-input-container>
+      <input mdInput type="text" placeholder="Превышение средней ставки"  name="averagePlus" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxCount" (ngModelChange)="settings.maxCount=$event">
+    </md-input-container>
+
     <div class="layer"></div>
     <div class="flex-center">
       <button type="button" class="btn btn-green" name="save" (click)="saveSettings()">
