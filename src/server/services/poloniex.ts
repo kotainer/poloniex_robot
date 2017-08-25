@@ -23,6 +23,7 @@ export class PoloniexAPI {
     myOpenLoansCount = 0;
     btcBalance = 0;
     coins = [];
+    averageCurrentDay = 0;
     constructor() {
         // this.connection = new autobahn.Connection({
         //     url: this.wsuri,
@@ -56,7 +57,7 @@ export class PoloniexAPI {
 
         setInterval(() => {
             this.saveLoanBTC();
-
+            this.averageDayRate();
         }, 100000);
 
         this.returnAvailableAccountBalances();
@@ -64,6 +65,7 @@ export class PoloniexAPI {
         this.returnActiveLoans();
         this.returnOpenLoanOffers();
         this.returnTicker();
+        this.averageDayRate();
         // this.createLoanOffer({rate: '0.0021', count: '0.011', range: '2'});
     }
 
@@ -166,16 +168,21 @@ export class PoloniexAPI {
         console.log('balance', this.btcBalance);
         const settings: any = await Settings.findOne({tag: 'main'});
         const minRate = loans[0];
-        console.log('minRate', minRate);
+        console.log('minRate', minRate.rate);
         if (minRate) {
             const rate = parseFloat(minRate.rate);
+            const count = this.btcBalance > settings.maxCount ? settings.maxCount : this.btcBalance;
             console.log('rate', rate);
+            console.log('count', count);
             if (rate > settings.minRate / 100) {
-                const count = this.btcBalance > settings.maxCount ? settings.maxCount : this.btcBalance;
-                console.log('count', count);
-                this.btcBalance -= count;
                 this.createLoanOffer({rate: settings.minRate / 100, count, range: '2'});
+            } else {
+                if (this.averageCurrentDay === 0) {
+                    return 0;
+                }
+                this.createLoanOffer({rate: this.averageCurrentDay + settings.averagePlus / 100, count, range: '2'});
             }
+            this.btcBalance -= count;
         }
     }
 
@@ -356,6 +363,28 @@ export class PoloniexAPI {
         });
 
         return result;
+    }
+
+    async averageDayRate() {
+        const days: any = await Loan.aggregate([
+        {
+            $group: {
+                '_id': {
+                    'day': { '$dayOfMonth': '$createdDate' },
+                    'month': { '$month': '$createdDate' },
+                    'year': { '$year': '$createdDate' },
+                },
+                average: { $avg: '$rate' }
+            }
+        }]);
+        for (const day of days) {
+            day.day = day._id.day;
+            day.month = day._id.month;
+            day.year = day._id.year;
+            delete day._id;
+        }
+        const last: any = _.last(_.sortBy(days, ['year', 'month', 'day']));
+        this.averageCurrentDay = last.average;
     }
 
 }
