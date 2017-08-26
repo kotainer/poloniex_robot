@@ -111,6 +111,7 @@ router
     .get('/balances/complete', balances.complete)
     .get('/balances/available', balances.available)
     .get('/balances/price', balances.coinsPrice)
+    .get('/balances/coins', balances.coinsBalances)
 
     // ------------------------------------------------
 

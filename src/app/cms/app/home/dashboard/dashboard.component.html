@@ -55,12 +55,12 @@
   </md-card>
 </div>
 <div class="flex-center flex-wrap charts-wrapper">
-  <md-card class="chart-wrapper chart-wrapper-500">
+  <md-card class="chart-wrapper chart-wrapper-800">
     <div class="table-title">
       Статистика по средней ставке
     </div>
     <div>
-      <canvas id ="chartAverageLoanDays" baseChart
+      <canvas #averageChart="base-chart" baseChart
                   [datasets]="averageLoanDaysData"
                   [labels]="averageLoanDaysLabels"
                   [options]="averageLoanDaysOptions"
@@ -82,6 +82,25 @@
                   [chartType]="userTypeChartType"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </md-card>
+  <div class="layer"></div>
+</div>
+<div class="flex-center flex-wrap charts-wrapper">
+  <md-card class="chart-wrapper chart-wrapper-800">
+    <div class="table-title">
+      Баланс по валютам
+    </div>
+    <div>
+      <canvas #balancesChart="base-chart" baseChart
+                [datasets]="balancesChartData"
+                [labels]="balancesChartLabels"
+                [options]="balancesChartOptions"
+                [chartType]="balancesChartType"
+                [legend]="balancesChartLegend"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+
     </div>
   </md-card>
   <div class="layer"></div>

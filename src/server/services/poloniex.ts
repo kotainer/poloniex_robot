@@ -17,32 +17,18 @@ const loanAPIURL = 'https://poloniex.com/public?command=returnLoanOrders&currenc
 const tickerAPIURL = 'https://poloniex.com/public?command=returnTicker';
 
 export class PoloniexAPI {
-    wsuri = 'wss://api.poloniex.com';
-    connection;
     lastLoans = [];
+    openLoans = [];
+    activeLoans = [];
     myOpenLoansCount = 0;
+
     btcBalance = 0;
+    availibleBalances = [];
     coins = [];
+
     averageCurrentDay = 0;
+
     constructor() {
-        // this.connection = new autobahn.Connection({
-        //     url: this.wsuri,
-        //     realm: 'realm1'
-        // });
-
-        // this.connection.onopen = (session) => {
-        //     function marketEvent (args, kwargs) {
-        //             console.log(args);
-        //     }
-        //     session.subscribe('ticker', marketEvent);
-        // };
-
-        // this.connection.onclose = () => {
-        //     console.log('Websocket connection closed');
-        // };
-
-        // this.connection.open();
-
         setInterval(() => {
             this.getLoanBTC();
         }, 4000);
@@ -66,7 +52,7 @@ export class PoloniexAPI {
         this.returnOpenLoanOffers();
         this.returnTicker();
         this.averageDayRate();
-        // this.createLoanOffer({rate: '0.0021', count: '0.011', range: '2'});
+        this.getBalances();
     }
 
     makeRequest(command, opts) {
@@ -96,6 +82,41 @@ export class PoloniexAPI {
         return this.coins;
     }
 
+    async getBalances() {
+        const coinsEnum = ['BTC'];
+        const balances = [];
+
+        this.availibleBalances = (await this.returnAvailableAccountBalances()).lending;
+        await this.returnActiveLoans();
+        await this.returnOpenLoanOffers();
+
+        for (const coin of coinsEnum) {
+            const coinBalance = {
+                coin,
+                balance: 0,
+            };
+
+            let currBalance = _.find(this.availibleBalances, {coin});
+            if (currBalance) {
+                coinBalance.balance += +currBalance.balance;
+            }
+
+            currBalance = _.filter(this.openLoans, {currency: coin});
+            for (const loan of currBalance) {
+                coinBalance.balance += +loan.amount;
+            }
+
+            currBalance = _.filter(this.activeLoans, {currency: coin});
+            for (const loan of currBalance) {
+                coinBalance.balance += +loan.amount;
+            }
+
+            balances.push(coinBalance);
+        }
+
+        return balances;
+    }
+
     async returnTicker() {
         const coins: any = await new Promise(resolve => {
             this.coins = [];
@@ -105,8 +126,6 @@ export class PoloniexAPI {
                 resolve();
             })
             .catch((err) => {
-                // console.log(err);
-                console.log('error network: returnTicker');
                 resolve([]);
             });
         });
@@ -122,8 +141,6 @@ export class PoloniexAPI {
                 resolve(ratings.offers);
             })
             .catch((err) => {
-                // console.log(err);
-                console.log('error network: getLoanBTC');
                 resolve([]);
             });
         });
@@ -140,7 +157,6 @@ export class PoloniexAPI {
                 resolve(ratings.offers);
             })
             .catch((err) => {
-                console.log('error network: saveLoanBTC');
                 resolve([]);
             });
         });
@@ -156,8 +172,7 @@ export class PoloniexAPI {
     }
 
     async getAverageRate() {
-        const average = (await Loan.aggregate([{$group: {_id: 1, average: {$avg: '$rate'}}}]))[0];
-        // console.log(average);
+        const average = (await Loan.aggregate([{$group: {_id: 1, average: {$avg: '$rate'}}}]))[0];;
         return average;
     }
 
@@ -213,7 +228,6 @@ export class PoloniexAPI {
               }
               resolve([]);
             }).catch(err => {
-                console.log(err);
                 resolve([]);
             });
         });
@@ -333,6 +347,10 @@ export class PoloniexAPI {
             });
         });
 
+        if (loans) {
+            this.openLoans = loans;
+        }
+
         return loans;
     }
 
@@ -354,6 +372,10 @@ export class PoloniexAPI {
                 resolve([]);
             });
         });
+
+        if (loans && loans.provided) {
+            this.activeLoans = loans.provided;
+        }
 
         return loans;
     }

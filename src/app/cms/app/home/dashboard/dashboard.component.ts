@@ -11,7 +11,8 @@ moment.locale('ru');
 })
 
 export class DashboardComponent implements OnInit {
-  @ViewChild(BaseChartDirective) chartAverageLoanDays: BaseChartDirective;
+  @ViewChild('averageChart') chartAverageLoanDays: BaseChartDirective;
+  @ViewChild('balancesChart') balancesChart: BaseChartDirective;
 
   public userTypeChartLabels: string[] = ['Баланс', 'Займы'];
   public userTypeChartData: number[] = [0, 0];
@@ -28,6 +29,16 @@ export class DashboardComponent implements OnInit {
   public averageLoanDaysData: any[] = [
     {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'},
   ];
+
+  public balancesChartData: Array<any> = [
+    {data: [0], label: 'BTC'},
+  ];
+  public balancesChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public balancesChartOptions: any = {
+    responsive: true
+  };
+  public balancesChartType = 'line';
+  public balancesChartLegend = true;
 
   public completeBalances: any;
   public availableBalances: any;
@@ -86,6 +97,7 @@ export class DashboardComponent implements OnInit {
     this.getActiveLoansOffer();
     this.getLastLoans();
     this.getCoinsPrice();
+    this.getCoinsBalances();
   }
 
   public getAvailableBalances() {
@@ -130,7 +142,9 @@ export class DashboardComponent implements OnInit {
   public getOpenLoansOffer() {
     this.cmsComponent._apiService.getOpenLoansOffer(this.cmsComponent.jwtToken).subscribe(
       data => {
+        if (Array.isArray(data) && data.length > 0) {
           this.openLoansOffer = data;
+        }
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -153,6 +167,30 @@ export class DashboardComponent implements OnInit {
     this.cmsComponent._apiService.getAverageRate(this.cmsComponent.jwtToken).subscribe(
       data => {
         this.average = data.average.toFixed(8);
+      },
+      err => {
+        this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
+      }
+    );
+  }
+
+  public getCoinsBalances() {
+    this.cmsComponent._apiService.getCoinsBalances(this.cmsComponent.jwtToken).subscribe(
+      data => {
+        this.balancesChart.datasets = [];
+        if (!Array.isArray(data.coinsName) && data.coinsName.length < 0) {
+          return;
+        }
+
+        for (let i = 0; i < data.coinsName.length; i++) {
+          this.balancesChart.datasets.push({
+            data: data.coinsBalance[i],
+            label: data.coinsName[i],
+          });
+        }
+
+        this.balancesChart.labels = data.labels || [];
+        this.balancesChart.ngOnChanges({});
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');

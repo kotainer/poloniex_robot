@@ -22,7 +22,7 @@ export class Loans {
             const normalizeLoans = [];
             Object.keys(loans).forEach(key => {
                 if (key === 'error') {
-                    return ctx.status = 400;
+                    return ctx.body = {status: 400};
                 }
                 for (const loan of loans[key]) {
                     normalizeLoans.push({
@@ -36,7 +36,13 @@ export class Loans {
                     });
                 }
             });
-            ctx.body = normalizeLoans;
+
+            if (normalizeLoans.length === 0) {
+                ctx.body = {status: 200};
+            } else {
+                ctx.body = normalizeLoans;
+            }
+
         } else {
             ctx.status = 401;
         }

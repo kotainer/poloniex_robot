@@ -331,4 +331,13 @@ export class ApiService {
             .map((res: Response) => res.json());
     }
 
+    public getCoinsBalances(jwt: string) {
+        const headers = new Headers();
+        headers.append('Authorization', jwt);
+
+        return this.http.get(`${apiUrl}balances/coins`,
+            { headers: headers })
+            .map((res: Response) => res.json());
+    }
+
 };

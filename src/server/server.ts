@@ -16,7 +16,7 @@ import routes from './api';
 import passport from './middleware/userAuthStategy';
 import err from './middleware/error';
 
-// const tasks = new Tasks().runTasks();
+const tasks = new Tasks().runTasks();
 const poloniex = new PoloniexAPI();
 
 const env = process.env.NODE_ENV || 'dev';

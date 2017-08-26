@@ -76,6 +76,10 @@ table td{
   width: 100%;
   max-width: 500px;
 }
+.chart-wrapper-800{
+  width: 100%;
+  max-width: 800px;
+}
 @media only screen and (max-width : 1199px) {
   .chart-wrapper{
     max-width: 500px;
