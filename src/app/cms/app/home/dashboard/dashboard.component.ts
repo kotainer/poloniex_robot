@@ -178,7 +178,7 @@ export class DashboardComponent implements OnInit {
     this.cmsComponent._apiService.getCoinsBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
         this.balancesChart.datasets = [];
-        if (!Array.isArray(data.coinsName) && data.coinsName.length < 0) {
+        if (Array.isArray(data.coinsName) && data.coinsName.length === 0) {
           return;
         }
 
