@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   public balancesChartData: Array<any> = [
     {data: [0], label: 'BTC'},
   ];
-  public balancesChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public balancesChartLabels: Array<any> = ['Данные не получены'];
   public balancesChartOptions: any = {
     responsive: true
   };

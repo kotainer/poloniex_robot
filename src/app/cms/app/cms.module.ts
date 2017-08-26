@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule, MdNativeDateModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SimpleNotificationsModule, NotificationsService } from 'angular2-notifications';
-import { CKEditorModule } from 'ng2-ckeditor';
 import { ChartsModule } from 'ng2-charts';
 import * as moment from 'moment';
 
@@ -53,7 +52,6 @@ const cmsRoutes: Routes = [
     MaterialModule,
     BrowserAnimationsModule,
     SimpleNotificationsModule,
-    CKEditorModule,
     MdNativeDateModule,
     ChartsModule,
   ],
