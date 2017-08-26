@@ -18,24 +18,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SettingsComponent } from './home/settings/settings.component';
-import { AdminsComponent } from './home/admins/admins.component';
-import { AdminsAddNewGroupComponent } from './home/admins/add-new-group/add-new-group.component';
-import { AdminsAddNewUserComponent } from './home/admins/add-new-user/add-new-user.component';
-import { AdminsChangePassComponent } from './home/admins/change-pass/change-pass.component';
-import { FilesComponent } from './home/files/files.component';
-import { UsersComponent } from './home/users/users.component';
-import { PaymentsComponent } from './home/payments/payments.component';
-import { AddNewPaymentComponent } from './home/payments/add-new-payment/add-new-payment.component';
-import { UserComponent } from './home/user/user.component';
-import { BankComponent } from './home/bank/bank.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
-import { MessagesComponent } from './home/messages/messages.component';
-import { RatesComponent } from './home/rates/rates.component';
-import { AddNewRateComponent } from './home/rates/add-new-rate/add-new-rate.component';
-import { UpdateRateComponent } from './home/rates/update-rate/update-rate.component';
-import { AccrualsComponent } from './home/accruals/accruals.component';
-import { BillsComponent } from './home/bills/bills.component';
-
 
 const cmsRoutes: Routes = [
   { path: '', component: HomeComponent,
@@ -52,12 +35,6 @@ const cmsRoutes: Routes = [
 
 @NgModule({
   entryComponents: [
-    AdminsAddNewGroupComponent,
-    AdminsAddNewUserComponent,
-    AdminsChangePassComponent,
-    AddNewPaymentComponent,
-    AddNewRateComponent,
-    UpdateRateComponent,
   ],
   declarations: [
     CMSComponent,
@@ -65,23 +42,7 @@ const cmsRoutes: Routes = [
     HomeComponent,
     PageNotFoundComponent,
     SettingsComponent,
-    AdminsComponent,
-    AdminsAddNewGroupComponent,
-    AdminsAddNewUserComponent,
-    AdminsChangePassComponent,
-    FilesComponent,
-    UsersComponent,
-    PaymentsComponent,
-    AddNewPaymentComponent,
-    UserComponent,
-    BankComponent,
     DashboardComponent,
-    MessagesComponent,
-    RatesComponent,
-    AddNewRateComponent,
-    UpdateRateComponent,
-    AccrualsComponent,
-    BillsComponent,
   ],
   imports: [
     RouterModule.forRoot(cmsRoutes),
