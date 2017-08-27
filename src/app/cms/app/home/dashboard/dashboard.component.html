@@ -184,9 +184,9 @@
       <tbody>
         <tr *ngFor="let balance of completeBalances">
           <td>{{balance?.coin}}</td>
-          <td>{{balance?.balance?.available}}</td>
-          <td>{{balance?.balance?.onOrders}}</td>
-          <td>{{balance?.balance?.btcValue}}</td>
+          <td>{{balance?.balance?.available | number:'1.3-6'}}</td>
+          <td>{{balance?.balance?.onOrders | number:'1.3-6'}}</td>
+          <td>{{balance?.balance?.btcValue | number:'1.3-6'}}</td>
         </tr>
       </tbody>
     </table>
