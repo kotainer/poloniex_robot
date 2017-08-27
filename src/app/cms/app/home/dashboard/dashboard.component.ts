@@ -25,7 +25,6 @@ export class DashboardComponent implements OnInit {
   public averageLoanDaysLabels: string[] = [];
   public averageLoanDaysType = 'bar';
   public averageLoanDaysLegend = true;
-
   public averageLoanDaysData: any[] = [
     {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'},
   ];
