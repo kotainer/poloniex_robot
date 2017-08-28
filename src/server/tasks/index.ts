@@ -9,7 +9,7 @@ export class Tasks {
     }
 
     logBalances = () => {
-        cron.schedule('1 0 0 * * *', () => {
+        cron.schedule('1 0 12 * * *', () => {
             new LogBalances().tick();
         });
 
