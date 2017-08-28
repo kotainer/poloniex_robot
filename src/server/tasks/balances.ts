@@ -11,6 +11,7 @@ export class LogBalances {
         if (Array.isArray(balances) && balances.length > 0) {
             for (const balance of balances) {
                 const logBalance = new Balance(balance);
+                logBalance.createdDate = new Date();
                 await logBalance.save();
             }
         }
