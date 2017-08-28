@@ -90,6 +90,13 @@ export class DashboardComponent implements OnInit {
     }, 20000);
   }
 
+  public refreshAll() {
+    this.refresh();
+    this.getAverageDayRate();
+    this.getAverage();
+    this.getCoinsBalances();
+  }
+
   public refresh() {
     this.getCompleteBalances();
     this.getAvailableBalances();
