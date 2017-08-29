@@ -76,6 +76,10 @@ table td{
   width: 100%;
   max-width: 500px;
 }
+.chart-wrapper-600{
+  width: 100%;
+  max-width: 600px;
+}
 .chart-wrapper-800{
   width: 100%;
   max-width: 800px;
