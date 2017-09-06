@@ -91,13 +91,14 @@ export class Loans {
     }
 
     averageDayRate = async (ctx, next) => {
-        const days: any = await Loan.aggregate([
+        let days: any = await Loan.aggregate([
         {
             $group: {
                 '_id': {
                     'day': { '$dayOfMonth': '$createdDate' },
                     'month': { '$month': '$createdDate' },
                     'year': { '$year': '$createdDate' },
+                    'coin': '$coin',
                 },
                 average: { $avg: '$rate' }
             }
@@ -106,9 +107,24 @@ export class Loans {
             day.day = day._id.day;
             day.month = day._id.month;
             day.year = day._id.year;
+            day.coin = day._id.coin;
             delete day._id;
         }
-        ctx.body = _.sortBy(days, ['year', 'month', 'day']);
+        days = _.sortBy(days, ['year', 'month', 'day']);
+        const daysByCoins = {};
+        for (const day of days) {
+            if (!daysByCoins[`${day.day}.${day.month}.${day.year}`]) {
+                daysByCoins[`${day.day}.${day.month}.${day.year}`] = {
+                    date: `${day.day}.${day.month}.${day.year}`,
+                };
+            }
+            daysByCoins[`${day.day}.${day.month}.${day.year}`][day.coin] = day.average;
+        }
+        const result = [];
+        Object.keys(daysByCoins).forEach(key => {
+            result.push(daysByCoins[key]);
+        });
+        ctx.body = result;
         await next();
     }
 

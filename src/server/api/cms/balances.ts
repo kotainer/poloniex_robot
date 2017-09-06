@@ -21,7 +21,14 @@ export class Balances {
 
     available = async (ctx, next) => {
         if (await validate.validateToken(ctx.headers.authorization)) {
-            ctx.body = await appServer.poloniex.returnAvailableAccountBalances();
+            const balances = await appServer.poloniex.returnAvailableAccountBalances();
+            const available = {};
+            if (balances.lending) {
+                for (const el of balances.lending) {
+                    available[el.coin] = el.balance;
+                }
+            }
+            ctx.body = available;
         } else {
             ctx.status = 401;
         }

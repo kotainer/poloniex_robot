@@ -1,91 +1,13 @@
+<div class="layer"></div>
+
 <div class="flex-center">
-    <button type="button" class="btn btn-green" name="save" (click)="refreshAll()">
-      <md-icon md-list-icon >autorenew</md-icon>
-      <div>Обновить</div>
-    </button>
+  <button type="button" class="btn btn-green" name="save" (click)="refreshAll()">
+    <md-icon md-list-icon >autorenew</md-icon>
+    <div>Обновить</div>
+  </button>
 </div>
 <div class="layer"></div>
-<div class="flex-center flex-wrap">
-  <md-card class="chip-card">
-    <div class="chip-title">
-      Средняя ставка за всё время
-    </div>
-    <div class="flex-between align-center">
-      <div class="big-num">
-        {{average *100 | number:'1.3-6'}}
-      </div>
-      <md-icon class="bg-icon">accessibility</md-icon>
-    </div>
-  </md-card>
-  <div class="layer"></div>
-  <md-card class="chip-card">
-    <div class="chip-title">
-      Баланс BTC(лендинг)
-    </div>
-    <div class="flex-between align-center">
-      <div class="big-num">
-        {{landingBTCBalance}}
-      </div>
-      <md-icon class="bg-icon">supervisor_account</md-icon>
-    </div>
-  </md-card>
-  <div class="layer"></div>
-  <md-card class="chip-card">
-    <div class="chip-title">
-      Текущий курс BTC
-    </div>
-    <div class="flex-between align-center">
-      <div class="big-num">
-        {{coinsPrice['USDT_BTC']?.last}}
-      </div>
-      <div class="arrow">
-        <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
-        <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
-      </div>
-      <md-icon class="bg-icon">attach_money</md-icon>
-    </div>
-    <div class="ps-info">
-      <span class="ps-title">
-        Изменение:
-      </span>
-      <span>
-        {{coinsPrice['USDT_BTC']?.percentChange * 100}}%
-      </span>
-    </div>
-  </md-card>
-</div>
-<div class="flex-center flex-wrap charts-wrapper">
-  <md-card class="chart-wrapper chart-wrapper-800">
-    <div class="table-title">
-      Статистика по средней ставке
-    </div>
-    <div>
-      <canvas #averageChart="base-chart" baseChart
-                  [datasets]="averageLoanDaysData"
-                  [labels]="averageLoanDaysLabels"
-                  [options]="averageLoanDaysOptions"
-                  [legend]="averageLoanDaysLegend"
-                  [chartType]="averageLoanDaysType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
-    </div>
-  </md-card>
-  <div class="layer"></div>
-  <md-card class="chart-wrapper chart-wrapper-300">
-    <div class="table-title">
-      Соотношения доступный баланс/открытые предложения
-    </div>
-    <div>
-      <canvas baseChart
-                  [data]="userTypeChartData"
-                  [labels]="userTypeChartLabels"
-                  [chartType]="userTypeChartType"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)"></canvas>
-    </div>
-  </md-card>
-  <div class="layer"></div>
-</div>
+
 <div class="flex-center flex-wrap charts-wrapper">
   <md-card class="chart-wrapper chart-wrapper-800">
     <div class="table-title">
@@ -167,52 +89,389 @@
     </md-card>
 </div>
 <div class="layer"></div>
-<div class="flex-center flex-wrap charts-wrapper">
-  <md-card class="chart-wrapper chart-wrapper-600">
-    <div class="table-title">
-      Complete balance list
+
+<md-tab-group>
+  <md-tab label="BTC">
+    <div class="layer"></div>
+
+    <div class="flex-center flex-wrap">
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Средняя ставка за всё время
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{average.BTC *100 | number:'1.3-6'}}
+          </div>
+          <md-icon class="bg-icon">accessibility</md-icon>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Баланс BTC
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{lendingBalances.BTC || 0}}
+          </div>
+          <md-icon class="bg-icon">supervisor_account</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            ${{lendingBalances.BTC * coinsPrice['USDT_BTC']?.last || 0}}
+          </span>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Текущий курс BTC
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{coinsPrice['USDT_BTC']?.last}}
+          </div>
+          <div class="arrow">
+            <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
+            <md-icon *ngIf="coinsPrice['USDT_BTC']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
+          </div>
+          <md-icon class="bg-icon">attach_money</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            Изменение:
+          </span>
+          <span>
+            {{coinsPrice['USDT_BTC']?.percentChange * 100}}%
+          </span>
+        </div>
+      </md-card>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <td></td>
-          <td>Доступно</td>
-          <td>В заказах</td>
-          <td>BTC эквивалент</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let balance of completeBalances">
-          <td>{{balance?.coin}}</td>
-          <td>{{balance?.balance?.available | number:'1.3-6'}}</td>
-          <td>{{balance?.balance?.onOrders | number:'1.3-6'}}</td>
-          <td>{{balance?.balance?.btcValue | number:'1.3-6'}}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="flex-center flex-wrap charts-wrapper">
+      <md-card class="chart-wrapper chart-wrapper-600">
+        <div class="table-title">
+          Текущие предложения на займ
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td>Ставка</td>
+              <td>Количество</td>
+              <td>Срок</td>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let loan of lastLoans.BTC">
+              <td>BTC</td>
+              <td>{{loan?.rate *100 | number:'1.3-6'}}</td>
+              <td>{{loan?.amount}}</td>
+              <td>{{loan?.rangeMin}}-{{loan?.rangeMax}}  дня</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card>
+    </div>
+  </md-tab>
+
+  <md-tab label="XRP">
+    <div class="layer"></div>
+
+    <div class="flex-center flex-wrap">
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Средняя ставка за всё время
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{average.XRP *100 | number:'1.3-6'}}
+          </div>
+          <md-icon class="bg-icon">accessibility</md-icon>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Баланс XRP
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{lendingBalances.XRP || 0}}
+          </div>
+          <md-icon class="bg-icon">supervisor_account</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            ${{lendingBalances.XRP * coinsPrice['USDT_XRP']?.last || 0}}
+          </span>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Текущий курс XRP
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{coinsPrice['USDT_XRP']?.last}}
+          </div>
+          <div class="arrow">
+            <md-icon *ngIf="coinsPrice['USDT_XRP']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
+            <md-icon *ngIf="coinsPrice['USDT_XRP']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
+          </div>
+          <md-icon class="bg-icon">attach_money</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            Изменение:
+          </span>
+          <span>
+            {{coinsPrice['USDT_XRP']?.percentChange * 100}}%
+          </span>
+        </div>
+      </md-card>
+    </div>
+
+    <div class="flex-center flex-wrap charts-wrapper">
+      <md-card class="chart-wrapper chart-wrapper-600">
+        <div class="table-title">
+          Текущие предложения на займ
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td>Ставка</td>
+              <td>Количество</td>
+              <td>Срок</td>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let loan of lastLoans.XRP">
+              <td>XRP</td>
+              <td>{{loan?.rate *100 | number:'1.3-6'}}</td>
+              <td>{{loan?.amount}}</td>
+              <td>{{loan?.rangeMin}}-{{loan?.rangeMax}}  дня</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card>
+    </div>
+
+  </md-tab>
+
+  <md-tab label="DASH">
+    <div class="layer"></div>
+
+    <div class="flex-center flex-wrap">
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Средняя ставка за всё время
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{average.DASH *100 | number:'1.3-6'}}
+          </div>
+          <md-icon class="bg-icon">accessibility</md-icon>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Баланс DASH
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{lendingBalances.DASH || 0}}
+          </div>
+          <md-icon class="bg-icon">supervisor_account</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            ${{lendingBalances.DASH * coinsPrice['USDT_DASH']?.last || 0}}
+          </span>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Текущий курс DASH
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{coinsPrice['USDT_DASH']?.last}}
+          </div>
+          <div class="arrow">
+            <md-icon *ngIf="coinsPrice['USDT_DASH']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
+            <md-icon *ngIf="coinsPrice['USDT_DASH']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
+          </div>
+          <md-icon class="bg-icon">attach_money</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            Изменение:
+          </span>
+          <span>
+            {{coinsPrice['USDT_DASH']?.percentChange * 100}}%
+          </span>
+        </div>
+      </md-card>
+    </div>
+
+    <div class="flex-center flex-wrap charts-wrapper">
+      <md-card class="chart-wrapper chart-wrapper-600">
+        <div class="table-title">
+          Текущие предложения на займ
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td>Ставка</td>
+              <td>Количество</td>
+              <td>Срок</td>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let loan of lastLoans.DASH">
+              <td>DASH</td>
+              <td>{{loan?.rate *100 | number:'1.3-6'}}</td>
+              <td>{{loan?.amount}}</td>
+              <td>{{loan?.rangeMin}}-{{loan?.rangeMax}}  дня</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card>
+    </div>
+
+  </md-tab>
+
+  <md-tab label="XMR">
+    <div class="layer"></div>
+
+    <div class="flex-center flex-wrap">
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Средняя ставка за всё время
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{average.XMR *100 | number:'1.3-6'}}
+          </div>
+          <md-icon class="bg-icon">accessibility</md-icon>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Баланс XMR
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{lendingBalances.XMR || 0}}
+          </div>
+          <md-icon class="bg-icon">supervisor_account</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            ${{lendingBalances.XMR * coinsPrice['USDT_XMR']?.last || 0}}
+          </span>
+        </div>
+      </md-card>
+      <div class="layer"></div>
+
+      <md-card class="chip-card">
+        <div class="chip-title">
+          Текущий курс XMR
+        </div>
+        <div class="flex-between align-center">
+          <div class="big-num">
+            {{coinsPrice['USDT_XMR']?.last}}
+          </div>
+          <div class="arrow">
+            <md-icon *ngIf="coinsPrice['USDT_XMR']?.percentChange > 0" class="up-icon">arrow_upward</md-icon>
+            <md-icon *ngIf="coinsPrice['USDT_XMR']?.percentChange < 0" class="down-icon">arrow_downward</md-icon>
+          </div>
+          <md-icon class="bg-icon">attach_money</md-icon>
+        </div>
+        <div class="ps-info">
+          <span class="ps-title">
+            Изменение:
+          </span>
+          <span>
+            {{coinsPrice['USDT_XMR']?.percentChange * 100}}%
+          </span>
+        </div>
+      </md-card>
+    </div>
+
+    <div class="flex-center flex-wrap charts-wrapper">
+      <md-card class="chart-wrapper chart-wrapper-600">
+        <div class="table-title">
+          Текущие предложения на займ
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <td></td>
+              <td>Ставка</td>
+              <td>Количество</td>
+              <td>Срок</td>
+            </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let loan of lastLoans.XMR">
+              <td>XMR</td>
+              <td>{{loan?.rate *100 | number:'1.3-6'}}</td>
+              <td>{{loan?.amount}}</td>
+              <td>{{loan?.rangeMin}}-{{loan?.rangeMax}}  дня</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-card>
+    </div>
+
+  </md-tab>
+</md-tab-group>
+
+<div class="flex-center flex-wrap charts-wrapper">
+  <md-card class="chart-wrapper chart-wrapper-800">
+    <div class="table-title">
+      Статистика по средней ставке
+    </div>
+    <div>
+      <canvas #averageChart="base-chart" baseChart
+                  [datasets]="averageLoanDaysData"
+                  [labels]="averageLoanDaysLabels"
+                  [options]="averageLoanDaysOptions"
+                  [legend]="averageLoanDaysLegend"
+                  [chartType]="averageLoanDaysType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+    </div>
   </md-card>
   <div class="layer"></div>
-  <md-card class="chart-wrapper chart-wrapper-600">
-      <div class="table-title">
-        Текущие предложения на займ
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <td></td>
-            <td>Ставка</td>
-            <td>Количество</td>
-            <td>Срок</td>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let loan of lastLoans">
-            <td>BTC</td>
-            <td>{{loan?.rate *100 | number:'1.3-6'}}</td>
-            <td>{{loan?.amount}}</td>
-            <td>{{loan?.rangeMin}}-{{loan?.rangeMax}}  дня</td>
-          </tr>
-        </tbody>
-      </table>
-    </md-card>
+  <!-- <md-card class="chart-wrapper chart-wrapper-300">
+    <div class="table-title">
+      Соотношения доступный баланс/открытые предложения
+    </div>
+    <div>
+      <canvas baseChart
+                  [data]="userTypeChartData"
+                  [labels]="userTypeChartLabels"
+                  [chartType]="userTypeChartType"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </md-card>
+  <div class="layer"></div> -->
 </div>

@@ -1,7 +1,6 @@
 import * as Loan from '../models/loan';
 import * as MyLoan from '../models/myLoan';
 import * as Settings from '../models/settings';
-import * as Nonce from '../models/nonce';
 import * as rp from 'request-promise';
 import * as crypto from 'crypto';
 import * as autobahn from 'autobahn';
@@ -13,16 +12,29 @@ const ApiHelper = require('./apiHelper');
 const privateKey = 'f4663943cdbe1f39e20213ff2fc0f3c98e8e1d50e1d50f52e23b9a2636d4470a0428844ff969ff1bc1d8e70a703c6863b9b3d9527d6d7e1b21867537a5893ca3';
 const publicKey = 'MH2DCW1X-CE4IGD31-ETWIPOSC-XX3Z6RYJ';
 
-const loanAPIURL = 'https://poloniex.com/public?command=returnLoanOrders&currency=BTC';
+const loanAPIURL = 'https://poloniex.com/public?command=returnLoanOrders&currency=';
 const tickerAPIURL = 'https://poloniex.com/public?command=returnTicker';
+const coinsEnum = ['BTC', 'XMR', 'XRP', 'DASH'];
 
 export class PoloniexAPI {
-    lastLoans = [];
+    lastLoans = {
+        'BTC': [],
+        'XMR': [],
+        'XRP': [],
+        'DASH': [],
+    };
+
     openLoans = [];
     activeLoans = [];
     myOpenLoansCount = 0;
 
-    btcBalance = 0;
+    coinsBalances = {
+        'BTC': 0,
+        'XMR': 0,
+        'XRP': 0,
+        'DASH': 0,
+    };
+
     availibleBalances = [];
     coins = [];
 
@@ -30,7 +42,7 @@ export class PoloniexAPI {
 
     constructor() {
         setInterval(() => {
-            this.getLoanBTC();
+            this.getLoans();
         }, 4000);
 
         setInterval(() => {
@@ -42,7 +54,7 @@ export class PoloniexAPI {
         }, 40000);
 
         setInterval(() => {
-            this.saveLoanBTC();
+            this.saveLoans();
             this.averageDayRate();
         }, 100000);
 
@@ -53,6 +65,7 @@ export class PoloniexAPI {
         this.returnTicker();
         this.averageDayRate();
         this.getBalances();
+        this.saveLoans();
     }
 
     makeRequest(command, opts) {
@@ -75,15 +88,109 @@ export class PoloniexAPI {
     }
 
     getLastLoans() {
-        return _.take(_.sortBy(this.lastLoans, [(el) => { return el.rate; }]), 10);
+        return this.lastLoans;
+        // return _.take(_.sortBy(this.lastLoans, [(el) => { return el.rate; }]), 10);
     }
 
     getCoinsPrice() {
         return this.coins;
     }
 
+    async getLoans() {
+        for (const coin of coinsEnum) {
+            this.lastLoans[coin] = [];
+            const loans: any = await new Promise(resolve => {
+                rp(loanAPIURL + coin)
+                .then(ratingsHTML => {
+                    const ratings = JSON.parse(ratingsHTML);
+                    this.lastLoans[coin] = _.take(ratings.offers, 10);
+                    resolve(ratings.offers);
+                })
+                .catch((err) => {
+                    resolve([]);
+                });
+            });
+            // await this.checkRate(loans, coin);
+        }
+    }
+
+    async saveLoans() {
+        for (const coin of coinsEnum) {
+            this.lastLoans[coin] = [];
+            const loans: any = await new Promise(resolve => {
+                rp(loanAPIURL + coin)
+                .then(ratingsHTML => {
+                    const ratings = JSON.parse(ratingsHTML);
+                    this.lastLoans[coin] = _.take(ratings.offers, 10);
+                    resolve(ratings.offers);
+                })
+                .catch((err) => {
+                    resolve([]);
+                });
+            });
+
+            for (const _loan of loans) {
+                _loan.coin = coin;
+                const rate = parseFloat(_loan.rate);
+                _loan.rate = rate.toFixed(5);
+                const loan = new Loan(_loan);
+                loan.createdDate = new Date();
+                await loan.save();
+            }
+        }
+    }
+
+    async getAverageRate() {
+        const rates: any = (await Loan.aggregate([{
+            $group: {
+                _id: '$coin',
+                average: {
+                    $avg: '$rate'
+                }
+            }
+        }]));
+
+        const average = {};
+        for (const rate of rates) {
+            average[rate._id] = rate.average;
+        }
+
+        return average;
+    }
+
+    async checkRate(loans, coin) {
+        if (this.coinsBalances[coin] < 0.01) {
+            return 0;
+        }
+        const settings: any = await Settings.findOne({tag: 'main'});
+        const minRate = loans[0];
+
+        if (minRate) {
+            const rate = parseFloat(minRate.rate);
+
+            let count = this.coinsBalances[coin] > settings.maxCount ? settings.maxCount : this.coinsBalances[coin];
+            if (this.coinsBalances[coin] - count < 0.01) {
+                count = this.coinsBalances[coin];
+            }
+
+            if (rate > settings.minRate / 100) {
+                this.createLoanOffer({coin, rate: settings.minRate / 100, count, range: '2'});
+            } else {
+                if (this.averageCurrentDay === 0) {
+                    return 0;
+                }
+                this.createLoanOffer({
+                    coin,
+                    rate: (this.averageCurrentDay + settings.averagePlus / 100 - settings.averageMinus / 100),
+                    count,
+                    range: '2',
+                });
+            }
+            this.coinsBalances[coin] -= count;
+        }
+    }
+
     async getBalances() {
-        const coinsEnum = ['BTC', 'XMR', 'XRP', 'DASH'];
         const balances = [];
 
         this.availibleBalances = (await this.returnAvailableAccountBalances()).lending;
@@ -131,92 +238,31 @@ export class PoloniexAPI {
         });
     }
 
-    async getLoanBTC() {
-        const loans: any = await new Promise(resolve => {
-            this.lastLoans = [];
-            rp(loanAPIURL)
-            .then(ratingsHTML => {
-                const ratings = JSON.parse(ratingsHTML);
-                this.lastLoans = ratings.offers;
-                resolve(ratings.offers);
-            })
-            .catch((err) => {
+    async createLoanOffer({coin, rate, count, range}) {
+        const loan: any = await new Promise(resolve => {
+            const requestParams = {
+                currency: coin,
+                amount: count,
+                duration: range,
+                autoRenew: 0,
+                lendingRate: rate,
+            };
+            console.log('requestParams', requestParams);
+
+            this.makeRequest('createLoanOffer', requestParams)
+            .then((r: any) => {
+              if (r.body) {
+                  return resolve(JSON.parse(r.body));
+              }
+              resolve([]);
+            }).catch(err => {
+                console.log(err);
                 resolve([]);
             });
         });
-        await this.checkRate(loans);
-    }
+        console.log('loan', loan);
 
-    async saveLoanBTC() {
-        const loans: any = await new Promise(resolve => {
-            this.lastLoans = [];
-            rp(loanAPIURL)
-            .then(ratingsHTML => {
-                const ratings = JSON.parse(ratingsHTML);
-                this.lastLoans = ratings.offers;
-                resolve(ratings.offers);
-            })
-            .catch((err) => {
-                resolve([]);
-            });
-        });
-
-        for (const _loan of loans) {
-            _loan.coin = 'BTC';
-            const rate = parseFloat(_loan.rate);
-            _loan.rate = rate.toFixed(5);
-            const loan = new Loan(_loan);
-            loan.createdDate = new Date();
-            await loan.save();
-        }
-    }
-
-    async getAverageRate() {
-        const average = (await Loan.aggregate([{$group: {_id: 1, average: {$avg: '$rate'}}}]))[0];;
-        return average;
-    }
-
-    async checkRate(loans) {
-        if (this.btcBalance < 0.01) {
-            return 0;
-        }
-        const settings: any = await Settings.findOne({tag: 'main'});
-        const minRate = loans[0];
-
-        if (minRate) {
-            const rate = parseFloat(minRate.rate);
-
-            let count = this.btcBalance > settings.maxCount ? settings.maxCount : this.btcBalance;
-            if (this.btcBalance - count < 0.01) {
-                count = this.btcBalance;
-            }
-
-            if (rate > settings.minRate / 100) {
-                this.createLoanOffer({rate: settings.minRate / 100, count, range: '2'});
-            } else {
-                if (this.averageCurrentDay === 0) {
-                    return 0;
-                }
-                this.createLoanOffer({
-                    rate: (this.averageCurrentDay + settings.averagePlus / 100 - settings.averageMinus / 100),
-                    count,
-                    range: '2',
-                });
-            }
-            this.btcBalance -= count;
-        }
-    }
-
-    async getNonce() {
-        const nonce = await Nonce.findById('nonce');
-        if (!nonce) {
-            const newNonce = new Nonce();
-            await newNonce.save();
-            return newNonce.count;
-        }
-        nonce.count ++;
-        await nonce.save();
-        return nonce.count;
+        return loan;
     }
 
     async getMyBalances() {
@@ -255,7 +301,6 @@ export class PoloniexAPI {
               }
               resolve([]);
             }).catch(err => {
-                console.log(err);
                 resolve([]);
             });
         });
@@ -279,15 +324,10 @@ export class PoloniexAPI {
             .then((r: any) => {
               if (r.body) {
                 const b = JSON.parse(r.body);
-                if (b.lending && b.lending.BTC) {
-                    this.btcBalance = b.lending.BTC;
-                }
-
                 return resolve(b);
               }
               resolve([]);
             }).catch(err => {
-                console.log(err);
                 resolve([]);
             });
         });
@@ -295,9 +335,11 @@ export class PoloniexAPI {
         const positiveBalances = {
             lending: []
         };
+
         if (balances.lending) {
             Object.keys(balances.lending).forEach(key => {
                 if (balances.lending[key] > 0 ) {
+                    this.coinsBalances[key] = parseFloat(balances.lending[key]);
                     positiveBalances.lending.push({
                         coin: key,
                         balance: balances.lending[key],
@@ -309,30 +351,6 @@ export class PoloniexAPI {
         return positiveBalances;
     }
 
-    async createLoanOffer({rate, count, range}) {
-        const loan: any = await new Promise(resolve => {
-            this.makeRequest('createLoanOffer', {
-                currency: 'BTC',
-                amount: count,
-                duration: range,
-                autoRenew: 0,
-                lendingRate: rate,
-            })
-            .then((r: any) => {
-              if (r.body) {
-                  return resolve(JSON.parse(r.body));
-              }
-              resolve([]);
-            }).catch(err => {
-                console.log(err);
-                resolve([]);
-            });
-        });
-        console.log('loan', loan);
-
-        return loan;
-    }
-
     async returnOpenLoanOffers() {
         const loans: any = await new Promise(resolve => {
             this.makeRequest('returnOpenLoanOffers', {})
@@ -342,7 +360,6 @@ export class PoloniexAPI {
               }
               resolve([]);
             }).catch(err => {
-                console.log(err);
                 resolve([]);
             });
         });
@@ -368,7 +385,6 @@ export class PoloniexAPI {
               }
               resolve([]);
             }).catch(err => {
-                console.log(err);
                 resolve([]);
             });
         });
@@ -412,7 +428,10 @@ export class PoloniexAPI {
             delete day._id;
         }
         const last: any = _.last(_.sortBy(days, ['year', 'month', 'day']));
-        this.averageCurrentDay = last.average;
+
+        if (last) {
+            this.averageCurrentDay = last.average;
+        }
     }
 
 }

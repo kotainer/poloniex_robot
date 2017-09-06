@@ -26,7 +26,10 @@ export class DashboardComponent implements OnInit {
   public averageLoanDaysType = 'bar';
   public averageLoanDaysLegend = true;
   public averageLoanDaysData: any[] = [
-    {data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Средняя ставка займов'},
+    {data: [0], label: 'BTC'},
+    {data: [0], label: 'XRP'},
+    {data: [0], label: 'DASH'},
+    {data: [0], label: 'XMR'},
   ];
 
   public balancesChartData: Array<any> = [
@@ -42,16 +45,31 @@ export class DashboardComponent implements OnInit {
   public completeBalances: any;
   public availableBalances: any;
   public openLoansOffer: any;
-  public average: any;
+  public average = {
+    BTC: 0,
+    XRP: 0,
+    DASH: 0,
+    XMR: 0,
+  };
   public activeLoans: any;
-  public lastLoans: any;
+  public lastLoans = {
+    BTC: [],
+    XRP: [],
+    DASH: [],
+    XMR: [],
+  };
   public coinsPrice = {
     USDT_BTC: {
       last: 0,
       percentChange: 0,
     },
   };
-  public landingBTCBalance = 0;
+  public lendingBalances = {
+    BTC: 0,
+    XRP: 0,
+    DASH: 0,
+    XMR: 0,
+  };
 
   public users = {
     all: 0,
@@ -95,6 +113,7 @@ export class DashboardComponent implements OnInit {
     this.getAverageDayRate();
     this.getAverage();
     this.getCoinsBalances();
+    this.cmsComponent._notificationsService.info('Данные в процессе обновления ...', '');
   }
 
   public refresh() {
@@ -109,11 +128,8 @@ export class DashboardComponent implements OnInit {
   public getAvailableBalances() {
     this.cmsComponent._apiService.getAvailableBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.availableBalances = data;
-        if (Array.isArray(this.availableBalances.lending)
-          && this.availableBalances.lending[0]
-          && this.availableBalances.lending[0].balance) {
-          this.landingBTCBalance = this.availableBalances.lending[0].balance;
+        if (data !== {}) {
+          this.lendingBalances = data;
         }
       },
       err => {
@@ -129,7 +145,7 @@ export class DashboardComponent implements OnInit {
     const inLoans = this.activeLoans.reduce((summ: any, el: any) => {
       return parseFloat(summ) + (parseFloat(el.amount));
     }, 0);
-    this.userTypeChartData = [this.landingBTCBalance, inLoans.toFixed(5)];
+    this.userTypeChartData = [this.lendingBalances.BTC, inLoans.toFixed(5)];
   }
 
   public getCompleteBalances() {
@@ -172,7 +188,7 @@ export class DashboardComponent implements OnInit {
   public getAverage() {
     this.cmsComponent._apiService.getAverageRate(this.cmsComponent.jwtToken).subscribe(
       data => {
-        this.average = data.average.toFixed(8);
+        this.average = data;
       },
       err => {
         this.cmsComponent._notificationsService.error('Ошибка при получении данных', '');
@@ -207,8 +223,17 @@ export class DashboardComponent implements OnInit {
   public getLastLoans() {
     this.cmsComponent._apiService.getLastLoans(this.cmsComponent.jwtToken).subscribe(
       data => {
-        if (Array.isArray(data) && data.length > 0) {
-          this.lastLoans = data;
+        if (Array.isArray(data.BTC) && data.BTC.length > 0) {
+          this.lastLoans.BTC = data.BTC;
+        }
+        if (Array.isArray(data.XMR) && data.XMR.length > 0) {
+          this.lastLoans.XMR = data.XMR;
+        }
+        if (Array.isArray(data.DASH) && data.DASH.length > 0) {
+          this.lastLoans.DASH = data.DASH;
+        }
+        if (Array.isArray(data.XRP) && data.XRP.length > 0) {
+          this.lastLoans.XRP = data.XRP;
         }
       },
       err => {
@@ -243,7 +268,7 @@ export class DashboardComponent implements OnInit {
   public calculateRamain(loan) {
 
     const startDate = moment();
-    const endDate = moment(loan.date).add(parseInt(loan.duration), 'days');
+    const endDate = moment(loan.date).add(parseInt(loan.duration, 2), 'days');
 
     return startDate.to(endDate);
   }
@@ -256,12 +281,19 @@ export class DashboardComponent implements OnInit {
     this.cmsComponent._apiService.getAverageDayRate(this.cmsComponent.jwtToken).subscribe(
       data => {
         const labels = [];
-        const days = data;
+
         const clone = JSON.parse(JSON.stringify(this.averageLoanDaysData));
         clone[0].data = [];
+        clone[1].data = [];
+        clone[2].data = [];
+        clone[3].data = [];
+
         for (const day of data) {
-          labels.push(`${day.day}.${day.month}.${day.year}`);
-          clone[0].data.push((day.average * 100).toFixed(5));
+          labels.push(day.date);
+          clone[0].data.push((day.BTC * 100).toFixed(5));
+          clone[1].data.push((day.XRP * 100).toFixed(5));
+          clone[2].data.push((day.DASH * 100).toFixed(5));
+          clone[3].data.push((day.XMR * 100).toFixed(5));
         }
 
         this.averageLoanDaysLabels = labels;
