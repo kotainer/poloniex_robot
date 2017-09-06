@@ -117,7 +117,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public refresh() {
-    this.getCompleteBalances();
+    // this.getCompleteBalances();
     this.getAvailableBalances();
     this.getOpenLoansOffer();
     this.getActiveLoansOffer();
@@ -128,8 +128,17 @@ export class DashboardComponent implements OnInit {
   public getAvailableBalances() {
     this.cmsComponent._apiService.getAvailableBalances(this.cmsComponent.jwtToken).subscribe(
       data => {
-        if (data !== {}) {
-          this.lendingBalances = data;
+        if (data.BTC) {
+          this.lendingBalances.BTC = data.BTC;
+        }
+        if (data.DASH) {
+          this.lendingBalances.DASH = data.DASH;
+        }
+        if (data.XMR) {
+          this.lendingBalances.XMR = data.XMR;
+        }
+        if (data.XRP) {
+          this.lendingBalances.XRP = data.XRP;
         }
       },
       err => {
