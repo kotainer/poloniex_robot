@@ -83,7 +83,7 @@ export class PoloniexAPI {
     }
 
     async getBalances() {
-        const coinsEnum = ['BTC'];
+        const coinsEnum = ['BTC', 'XMR', 'XRP', 'DASH'];
         const balances = [];
 
         this.availibleBalances = (await this.returnAvailableAccountBalances()).lending;
