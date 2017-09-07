@@ -184,10 +184,11 @@ export class PoloniexAPI {
                 count = this.coinsBalances[coin];
             }
 
-            const availableRate = this.averageCurrentDay[coin] / 100;
+            const availableRate = this.averageCurrentDay[coin];
 
             if (rate < availableRate) {
-                rate = availableRate * (1 - (+settings.averageMinus + +settings.averagePlus) / 100);
+                const newRate = availableRate * (1 - (+settings.averageMinus + +settings.averagePlus) / 100);
+                rate = newRate > rate ? newRate : rate;
             }
 
             this.createLoanOffer({coin, rate, count, range: '2'});
@@ -442,7 +443,6 @@ export class PoloniexAPI {
                 this.averageCurrentDay[rait.coin] = rait.average;
             }
         }
-        console.log(this.averageCurrentDay);
     }
 
 }
