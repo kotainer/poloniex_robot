@@ -15,6 +15,14 @@ export class SettingsComponent implements OnInit {
     averageMinus: 0,
     maxCount: 0.01,
     minRate: 0.0099,
+    limitDASHInLoan: 0,
+    maxDASHCount: 0,
+    limitBTCInLoan: 0,
+    maxBTCCount: 0,
+    limitXRPInLoan: 0,
+    maxXRPCount: 0,
+    limitXMRInLoan: 0,
+    maxXMRCount: 0,
   };
   public _id = '';
 
