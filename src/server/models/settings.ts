@@ -18,12 +18,22 @@ const setSchema = new Schema({
 
     body: {},
 
-    limitCoinInLoan: Number,
     limitLoans: Number,
     averagePlus: Number,
     averageMinus: Number,
-    maxCount: Number,
     minRate: Number,
+
+    limitDASHInLoan: Number,
+    maxDASHCount: Number,
+
+    limitBTCInLoan: Number,
+    maxBTCCount: Number,
+
+    limitXRPInLoan: Number,
+    maxXRPCount: Number,
+
+    limitXMRInLoan: Number,
+    maxXMRCount: Number,
 
     settings: {},
 

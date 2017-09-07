@@ -4,33 +4,76 @@
 <md-card class="center-card">
   <form class="center-form" #settingsForm="ngForm" >
     <div class="form-title">
-      Настройки займов
+      Общие настройки
     </div>
-    <md-input-container>
-      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitCoinInLoan" (ngModelChange)="settings.limitCoinInLoan=$event">
-    </md-input-container>
     <md-input-container>
       <input mdInput type="number" placeholder="Лимит на количество займов"  name="countLimit"  [ngModel]="settings.limitLoans" (ngModelChange)="settings.limitLoans=$event">
     </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Минимальный процент"  name="minrate" [ngModel]="settings.minRate" (ngModelChange)="settings.minRate=$event">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Превышение средней ставки"  name="averagePlus" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Уменьшение средней ставки"  name="averageMinus" [ngModel]="settings.averageMinus" (ngModelChange)="settings.averageMinus=$event">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxCount" (ngModelChange)="settings.maxCount=$event">
-    </md-input-container>
 
+    <md-input-container>
+      <input mdInput type="text" placeholder="Превышение средней ставки %"  name="averagePlus" [ngModel]="settings.averagePlus" (ngModelChange)="settings.averagePlus=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Уменьшение средней ставки %"  name="averageMinus" [ngModel]="settings.averageMinus" (ngModelChange)="settings.averageMinus=$event">
+    </md-input-container>
     <div class="layer"></div>
-    <div class="flex-center">
-      <button type="button" class="btn btn-green" name="save" (click)="saveSettings()">
-        <md-icon md-list-icon >save</md-icon>
-        <div>Сохранить</div>
-      </button>
-    </div>
   </form>
+  <div class="layer"></div>
+
+  <form class="center-form" #settingsForm="ngForm" >
+    <div class="form-title">
+      BTC
+    </div>
+    <md-input-container>
+      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitBTCInLoan" (ngModelChange)="settings.limitBTCInLoan=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxBTCCount" (ngModelChange)="settings.maxBTCCount=$event">
+    </md-input-container>
+  </form>
+
+  <form class="center-form" #settingsForm="ngForm" >
+    <div class="form-title">
+      XRP
+    </div>
+    <md-input-container>
+      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitXRPInLoan" (ngModelChange)="settings.limitXRPInLoan=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxXRPCount" (ngModelChange)="settings.maxXRPCount=$event">
+    </md-input-container>
+  </form>
+
+  <form class="center-form" #settingsForm="ngForm" >
+    <div class="form-title">
+      DASH
+    </div>
+    <md-input-container>
+      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitDASHInLoan" (ngModelChange)="settings.limitDASHInLoan=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxDASHCount" (ngModelChange)="settings.maxDASHCount=$event">
+    </md-input-container>
+  </form>
+
+  <form class="center-form" #settingsForm="ngForm" >
+    <div class="form-title">
+      XMR
+    </div>
+    <md-input-container>
+      <input mdInput type="number" placeholder="Лимит в обороте"  name="limit" [ngModel]="settings.limitXMRInLoan" (ngModelChange)="settings.limitXMRInLoan=$event">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Максимальный размер ставки"  name="maxCount" [ngModel]="settings.maxXMRCount" (ngModelChange)="settings.maxXMRCount=$event">
+    </md-input-container>
+  </form>
+
+  <div class="layer"></div>
+  <div class="flex-center">
+    <button type="button" class="btn btn-green" name="save" (click)="saveSettings()">
+      <md-icon md-list-icon >save</md-icon>
+      <div>Сохранить</div>
+    </button>
+  </div>
+
 </md-card>

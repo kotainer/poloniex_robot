@@ -38,7 +38,12 @@ export class PoloniexAPI {
     availibleBalances = [];
     coins = [];
 
-    averageCurrentDay = 0;
+    averageCurrentDay = {
+        'BTC': 0,
+        'XMR': 0,
+        'XRP': 0,
+        'DASH': 0,
+    };
 
     constructor() {
         setInterval(() => {
@@ -97,7 +102,7 @@ export class PoloniexAPI {
     }
 
     async getLoans() {
-        for (const coin of coinsEnum) {
+        await Promise.all(coinsEnum.map(async (coin) => {
             this.lastLoans[coin] = [];
             const loans: any = await new Promise(resolve => {
                 rp(loanAPIURL + coin)
@@ -110,8 +115,8 @@ export class PoloniexAPI {
                     resolve([]);
                 });
             });
-            // await this.checkRate(loans, coin);
-        }
+            await this.checkRate(loans, coin);
+          }));
     }
 
     async saveLoans() {
@@ -128,11 +133,11 @@ export class PoloniexAPI {
                     resolve([]);
                 });
             });
-
-            for (const _loan of loans) {
+            const limitLoans: any = _.take(loans, 10);
+            for (const _loan of limitLoans) {
                 _loan.coin = coin;
                 const rate = parseFloat(_loan.rate);
-                _loan.rate = rate.toFixed(5);
+                _loan.rate = rate.toFixed(7);
                 const loan = new Loan(_loan);
                 loan.createdDate = new Date();
                 await loan.save();
@@ -159,33 +164,34 @@ export class PoloniexAPI {
     }
 
     async checkRate(loans, coin) {
-        if (this.coinsBalances[coin] < 0.01) {
+        const settings: any = await Settings.findOne({tag: 'main'});
+
+        if (this.coinsBalances[coin] < settings[`max${coin}Count`]) {
             return 0;
         }
-        const settings: any = await Settings.findOne({tag: 'main'});
+
         const minRate = loans[0];
 
         if (minRate) {
-            const rate = parseFloat(minRate.rate);
+            let rate = parseFloat(minRate.rate);
+            if (this.averageCurrentDay[coin] === 0) {
+                return 0;
+            }
+            let count = this.coinsBalances[coin] > settings[`max${coin}Count`] ?
+                settings[`max${coin}Count`] : this.coinsBalances[coin];
 
-            let count = this.coinsBalances[coin] > settings.maxCount ? settings.maxCount : this.coinsBalances[coin];
-            if (this.coinsBalances[coin] - count < 0.01) {
+            if (this.coinsBalances[coin] - count < settings[`max${coin}Count`]) {
                 count = this.coinsBalances[coin];
             }
 
-            if (rate > settings.minRate / 100) {
-                this.createLoanOffer({coin, rate: settings.minRate / 100, count, range: '2'});
-            } else {
-                if (this.averageCurrentDay === 0) {
-                    return 0;
-                }
-                this.createLoanOffer({
-                    coin,
-                    rate: (this.averageCurrentDay + settings.averagePlus / 100 - settings.averageMinus / 100),
-                    count,
-                    range: '2',
-                });
+            const availableRate = this.averageCurrentDay[coin] / 100;
+
+            if (rate < availableRate) {
+                rate = availableRate * (1 - (+settings.averageMinus + +settings.averagePlus) / 100);
             }
+
+            this.createLoanOffer({coin, rate, count, range: '2'});
+
             this.coinsBalances[coin] -= count;
         }
     }
@@ -417,6 +423,7 @@ export class PoloniexAPI {
                     'day': { '$dayOfMonth': '$createdDate' },
                     'month': { '$month': '$createdDate' },
                     'year': { '$year': '$createdDate' },
+                    'coin': '$coin',
                 },
                 average: { $avg: '$rate' }
             }
@@ -425,13 +432,17 @@ export class PoloniexAPI {
             day.day = day._id.day;
             day.month = day._id.month;
             day.year = day._id.year;
+            day.coin = day._id.coin;
             delete day._id;
         }
-        const last: any = _.last(_.sortBy(days, ['year', 'month', 'day']));
 
+        const last: any = _.take((_.sortBy(days, ['year', 'month', 'day'])).reverse(), 4);
         if (last) {
-            this.averageCurrentDay = last.average;
+            for (const rait of last) {
+                this.averageCurrentDay[rait.coin] = rait.average;
+            }
         }
+        console.log(this.averageCurrentDay);
     }
 
 }
